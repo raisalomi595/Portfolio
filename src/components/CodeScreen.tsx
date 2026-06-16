@@ -12,7 +12,7 @@ const LINES = [
   '',
   '  return (',
   '    <div className="hero">',
-  '      <h1>Hi, I\'m Soifon Rai</h1>',
+  "      <h1>Hi, I'm Soifon Rai</h1>",
   '      <p>Full-stack developer</p>',
   '    </div>',
   '  )',
@@ -22,7 +22,9 @@ const LINES = [
 ]
 
 const CHARS_PER_SECOND = 15
-const LOOP_PAUSE_MS = 2500
+const PAUSE_AT_CODE_MS = 2500
+const IMAGE_DISPLAY_MS = 4000
+const FADE_MS = 1500
 
 export default function CodeScreen() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -35,61 +37,102 @@ export default function CodeScreen() {
     canvas.width = 640
     canvas.height = 400
 
+    const img = new Image()
+    img.src = '/img1.jpg'
+    let loaded = false
+    img.onload = () => { loaded = true }
+
     let charIndex = 0
     const totalChars = LINES.join('\n').length
-    let direction = 1
-    let paused = false
-    let pauseTimer = 0
+    let phase: 'typing' | 'pause' | 'fadeInImg' | 'showImg' | 'fadeOutImg' = 'typing'
+    let phaseTimer = 0
+    let fade = 0
+    let last = performance.now()
+    let animId: number
 
     const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+      const showCode = phase === 'typing' || phase === 'pause' || phase === 'fadeInImg'
+
+      const codeAlpha = phase === 'fadeInImg' ? 1 - fade : showCode ? 1 : 0
+      const imgAlpha = phase === 'fadeInImg' ? fade : phase === 'showImg' ? 1 : phase === 'fadeOutImg' ? 1 - fade : 0
+
+      // Background
       ctx.fillStyle = '#1a1a1a'
       ctx.fillRect(0, 0, canvas.width, canvas.height)
-
       const grad = ctx.createRadialGradient(320, 200, 30, 320, 200, 350)
       grad.addColorStop(0, '#222')
       grad.addColorStop(1, '#111')
       ctx.fillStyle = grad
       ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-      ctx.font = '16px "Courier New", Courier, monospace'
-      ctx.textBaseline = 'top'
-
-      let drawn = 0
-      for (let li = 0; li < LINES.length; li++) {
-        const line = LINES[li]
-        if (drawn >= charIndex) break
-        const chars = Math.min(line.length, charIndex - drawn)
-        if (chars <= 0) { drawn += line.length + 1; continue }
-
-        ctx.fillStyle = '#4ade80'
-        ctx.fillText(line.slice(0, chars), 20, 22 + li * 27)
-        drawn += line.length + 1
+      // Code
+      if (codeAlpha > 0) {
+        ctx.save()
+        ctx.globalAlpha = codeAlpha
+        ctx.font = '16px "Courier New", Courier, monospace'
+        ctx.textBaseline = 'top'
+        let drawn = 0
+        for (let li = 0; li < LINES.length; li++) {
+          const line = LINES[li]
+          if (drawn >= charIndex) break
+          const chars = Math.min(line.length, charIndex - drawn)
+          if (chars <= 0) { drawn += line.length + 1; continue }
+          ctx.fillStyle = '#4ade80'
+          ctx.fillText(line.slice(0, chars), 20, 22 + li * 27)
+          drawn += line.length + 1
+        }
+        if (charIndex < totalChars) {
+          const cl = Math.min(Math.floor(charIndex / 40), LINES.length - 1)
+          const cc = charIndex % 40
+          ctx.fillStyle = '#4ade80'
+          ctx.fillRect(20 + cc * 9.6, 22 + cl * 27, 7, 16)
+        }
+        ctx.restore()
       }
 
-      if (charIndex < totalChars && !paused) {
-        const cl = Math.min(Math.floor(charIndex / 40), LINES.length - 1)
-        const cc = charIndex % 40
-        const cx = 20 + cc * 9.6
-        const cy = 22 + cl * 27
-        ctx.fillStyle = '#4ade80'
-        ctx.fillRect(cx, cy, 7, 16)
+      // Image
+      if (imgAlpha > 0 && loaded) {
+        ctx.save()
+        ctx.globalAlpha = imgAlpha
+        const s = Math.max(canvas.width / img.naturalWidth, canvas.height / img.naturalHeight)
+        ctx.drawImage(
+          img,
+          (canvas.width - img.naturalWidth * s) / 2,
+          (canvas.height - img.naturalHeight * s) / 2,
+          img.naturalWidth * s,
+          img.naturalHeight * s,
+        )
+        ctx.restore()
       }
     }
-
-    let animId: number
-    let last = performance.now()
 
     const tick = (now: number) => {
       const dt = now - last
       last = now
 
-      if (paused) {
-        pauseTimer += dt
-        if (pauseTimer >= LOOP_PAUSE_MS) { paused = false; pauseTimer = 0; direction *= -1 }
-      } else {
-        charIndex += direction * Math.max(1, Math.floor((dt / 1000) * CHARS_PER_SECOND))
-        if (charIndex >= totalChars) { charIndex = totalChars; paused = true; pauseTimer = 0 }
-        else if (charIndex <= 0) { charIndex = 0; paused = true; pauseTimer = 0; direction *= -1 }
+      switch (phase) {
+        case 'typing':
+          charIndex += Math.max(1, Math.floor((dt / 1000) * CHARS_PER_SECOND))
+          if (charIndex >= totalChars) { charIndex = totalChars; phase = 'pause'; phaseTimer = 0 }
+          break
+        case 'pause':
+          phaseTimer += dt
+          if (phaseTimer >= PAUSE_AT_CODE_MS) { phase = 'fadeInImg'; fade = 0 }
+          break
+        case 'fadeInImg':
+          fade += dt / FADE_MS
+          if (fade >= 1) { fade = 1; phase = 'showImg'; phaseTimer = 0 }
+          break
+        case 'showImg':
+          phaseTimer += dt
+          if (phaseTimer >= IMAGE_DISPLAY_MS) { phase = 'fadeOutImg'; fade = 0 }
+          break
+        case 'fadeOutImg':
+          fade += dt / FADE_MS
+          if (fade >= 1) { charIndex = 0; phase = 'typing' }
+          break
       }
 
       draw()

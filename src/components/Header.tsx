@@ -30,14 +30,14 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-cream-100/80 border-b border-cream-300">
       <nav
-        className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4"
+        className="flex items-center justify-between py-4 pr-4 sm:pr-6 lg:pr-8"
         aria-label="Main navigation"
       >
         <Link
           to="/"
-          className="text-lg font-bold tracking-tight text-ink-800"
+          className="text-3xl font-bold tracking-tight text-ink-800"
         >
-          AR<span className="text-terracotta-500">.</span>
+          Salomi<span className="text-terracotta-500">Rai</span>
         </Link>
 
         <ul className="hidden md:flex items-center gap-8" role="list">

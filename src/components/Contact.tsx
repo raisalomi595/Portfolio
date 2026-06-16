@@ -6,8 +6,8 @@ import { Send, Check, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
 const FORMSPREE_ID = 'YOUR_FORM_ID'
 
 const contactInfo = [
-  { icon: Mail, label: 'Email', value: 'salomirai@example.com', href: 'mailto:salomirai@example.com' },
-  { icon: Phone, label: 'Phone', value: '+977 98XXXXXXXX', href: 'tel:+97798XXXXXXXX' },
+  { icon: Mail, label: 'Email', value: 'raisalomi595@gmail.com', href: 'mailto:raisalomi595@gmail.com' },
+  { icon: Phone, label: 'Phone', value: '+977 9807317882', href: 'ph:+9779807317882' },
   { icon: MapPin, label: 'Location', value: 'Dharan, Nepal' },
 ]
 
@@ -19,8 +19,8 @@ const SocialGithub = ({ size = 16 }: { size?: number }) => (
 )
 
 const socialLinks = [
-  { icon: SocialLinkedin, label: 'LinkedIn', href: 'https://linkedin.com/in/salomirai' },
-  { icon: SocialGithub, label: 'GitHub', href: 'https://github.com/salomirai' },
+  { icon: SocialLinkedin, label: 'LinkedIn', href: 'https://www.linkedin.com/in/salomi-rai-923259400/' },
+  { icon: SocialGithub, label: 'GitHub', href: 'https://github.com/raisalomi595' },
 ]
 
 const stagger = (i: number) => ({ delay: i * 0.08 })
