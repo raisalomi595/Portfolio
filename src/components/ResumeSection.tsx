@@ -58,12 +58,12 @@ export default function ResumeSection() {
               </p>
               <div className="flex items-center gap-8">
                 <div>
-                  <span className="block text-3xl font-bold text-ink-800">2</span>
+                  <span className="block text-3xl font-bold text-ink-800">2+</span>
                   <span className="text-sm text-muted">Projects</span>
                 </div>
                 <div>
-                  <span className="block text-3xl font-bold text-ink-800">6</span>
-                  <span className="text-sm text-muted">Months Exp.</span>
+                  <span className="block text-3xl font-bold text-ink-800">3+</span> 
+                  <span className="text-sm text-muted">Year Learning.</span>
                 </div>
               </div>
             </div>

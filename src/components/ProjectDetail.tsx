@@ -49,7 +49,7 @@ export default function ProjectDetail() {
     <div className="min-h-screen bg-[#ECE8DC]">
       {/* Back navigation */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-[#ECE8DC]/90 backdrop-blur-sm border-b border-dashed border-[#FF5C39]/20">
-        <div className="mx-auto max-w-[1200px] px-6 md:px-10 py-4 flex items-center justify-between">
+        <div className="mx-auto max-w-7xl px-6 md:px-10 py-4 flex items-center justify-between">
           <Link
             to="/#projects"
             className="font-mono text-xs text-[#8B8174] hover:text-[#FF5C39] transition-colors flex items-center gap-2"
@@ -63,7 +63,7 @@ export default function ProjectDetail() {
 
       {/* Hero */}
       <section className="pt-16 pb-12 md:pb-20">
-        <div className="mx-auto max-w-[1200px] px-6 md:px-10">
+        <div className="mx-auto max-w-7xl px-6 md:px-10">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -87,7 +87,7 @@ export default function ProjectDetail() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="mx-auto max-w-[1400px] px-6 md:px-10 mb-20"
+        className="mx-auto max-w-7xl px-6 md:px-10 mb-16"
       >
         <div className="aspect-video overflow-hidden border border-dashed border-[#FF5C39]/40">
           <img
@@ -99,7 +99,7 @@ export default function ProjectDetail() {
       </motion.div>
 
       {/* Project Info Bar */}
-      <div className="mx-auto max-w-[1200px] px-6 md:px-10 mb-20">
+      <div className="mx-auto max-w-7xl px-6 md:px-10 mb-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-dashed border-[#FF5C39]/20 pt-10">
           <motion.div {...fadeUp(0.1)}>
             <motion.h3 {...fadeIn} className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase mb-4">Role</motion.h3>
@@ -330,7 +330,7 @@ export default function ProjectDetail() {
 
 function Section({ children, noBorder = true }: { children: React.ReactNode; noBorder?: boolean }) {
   return (
-    <section className="mx-auto max-w-[1200px] px-6 md:px-10 mb-20">
+    <section className="mx-auto max-w-7xl px-6 md:px-10 mb-16">
       <div className={noBorder ? 'border-t border-dashed border-[#FF5C39]/20 pt-10' : 'pt-10'}>
         {children}
       </div>

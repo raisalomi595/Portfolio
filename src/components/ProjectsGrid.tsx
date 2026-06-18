@@ -10,7 +10,7 @@ export default function ProjectsGrid() {
       id="projects"
       className="bg-[#ECE8DC] py-24 md:py-32"
     >
-      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
         {/* Editorial header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}

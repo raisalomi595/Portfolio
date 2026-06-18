@@ -57,7 +57,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="bg-cream-100 py-24 overflow-hidden">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="mx-auto max-w-7xl px-6 md:px-10">
         <div className="grid gap-16 lg:grid-cols-5">
           {/* LEFT: Info */}
           <motion.div
@@ -199,7 +199,7 @@ export default function Contact() {
                       aria-required="true"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all"
+                      className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all"
                       placeholder="Your name"
                     />
                   </motion.div>
@@ -221,8 +221,8 @@ export default function Contact() {
                       aria-required="true"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all"
-                      placeholder="salomi@example.com"
+                      className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all"
+                      placeholder="you@example.com"
                     />
                   </motion.div>
                 </div>
@@ -244,7 +244,7 @@ export default function Contact() {
                     rows={5}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all resize-y"
+                    className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all resize-y"
                     placeholder="Tell me about your project or idea..."
                   />
                 </motion.div>

@@ -24,7 +24,7 @@ export default function ProjectCard({ project }: Props) {
         <h3 className="font-mono text-sm tracking-wide text-[#FF5C39]">
           {project.title}
         </h3>
-        <p className="mt-1.5 text-xs text-[#8B8174] font-light leading-relaxed max-w-[90%]">
+        <p className="mt-1.5 text-xs text-[#8B8174] font-light leading-relaxed">
           {project.type}
         </p>
       </div>

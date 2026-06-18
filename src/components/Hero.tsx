@@ -12,7 +12,7 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center overflow-hidden bg-cream-100">
       <PlaidBackground />
 
-      <div className="relative z-10 w-full h-screen flex items-center justify-between px-8 sm:px-12 md:px-16">
+      <div className="relative z-10 w-full min-h-screen flex flex-col lg:flex-row items-center justify-between px-6 md:px-10">
         {/* Intro — bottom-left */}
         <motion.div
           className="max-w-lg self-end pb-20"
@@ -85,7 +85,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Retro Computer — right side */}
-        <div className="w-[58%] max-w-[750px] self-center flex items-center justify-center">
+        <div className="hidden lg:flex w-[58%] max-w-[750px] self-center items-center justify-center">
           <RetroComputer />
         </div>
       </div>

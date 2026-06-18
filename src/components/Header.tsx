@@ -30,7 +30,7 @@ export default function Header() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-cream-100/80 border-b border-cream-300">
       <nav
-        className="flex items-center justify-between py-4 pr-4 sm:pr-6 lg:pr-8"
+        className="flex items-center justify-between py-4 px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
         <Link
