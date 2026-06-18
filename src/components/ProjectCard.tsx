@@ -21,10 +21,10 @@ export default function ProjectCard({ project }: Props) {
 
       {/* Title */}
       <div className="mt-5">
-        <h3 className="font-mono text-sm tracking-wide text-[#FF5C39]">
+        <h3 className="font-mono text-xl md:text-3xl tracking-wide text-[#FF5C39]">
           {project.title}
         </h3>
-        <p className="mt-1.5 text-xs text-[#8B8174] font-light leading-relaxed">
+        <p className="text-sm md:text-lg text-[#8B8174] font-light leading-relaxed">
           {project.type}
         </p>
       </div>

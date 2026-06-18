@@ -1,8 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Download, Mail } from 'lucide-react'
-
-const RESUME_FILE = '/SalomiRai_CV.pdf'
+import { Mail } from 'lucide-react'
 
 const skillsList = [
   'React.js',
@@ -109,8 +107,8 @@ function CanvasOverlay() {
 
 export default function About() {
   return (
-    <section id="about" className="bg-cream-50 py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="about" className="bg-cream-50 py-24 md:py-32 scroll-mt-20">
+      <div className="mx-auto max-w-8xl px-6 md:px-10">
         <div className="grid gap-12 md:grid-cols-5">
           {/* Left: Photo */}
           <motion.div
@@ -145,7 +143,7 @@ export default function About() {
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-ink-800 leading-[1.1]">
               Salomi Rai
             </h2>
-           
+            
 
             <div className="mt-6 space-y-4 text-base text-muted leading-relaxed max-w-xl">
               <p>
@@ -175,16 +173,17 @@ export default function About() {
               ))}
             </div>
 
-            {/* Resume link */}
+            {/* Certificates */}
             <div className="mt-8">
-              <a
-                href={RESUME_FILE}
-                download
-                className="inline-flex items-center gap-2 text-sm font-medium text-ink-800 border-b border-ink-800 pb-0.5 hover:text-terracotta-500 hover:border-terracotta-500 transition-colors"
-              >
-                <Download size={14} />
-                Download Resumé
-              </a>
+              <p className="text-sm font-medium text-ink-800 mb-2">Certificates</p>
+              <div className="space-y-1">
+                <p className="text-sm text-muted">
+                  Java Object-Oriented Programming (OOP)
+                </p>
+                <p className="text-xs text-muted/70 break-all">
+                  LinkedIn Learning | Credential ID: 255728632bca084b92e4cd1cda91880c1c1843a99c5529cccbe5ce0fd3c6ecec
+                </p>
+              </div>
             </div>
 
             {/* Social links */}

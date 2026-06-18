@@ -5,8 +5,8 @@ export default function RetroComputer() {
     <div className="w-full h-full relative flex flex-col items-center justify-center select-none">
       {/* Idle vibration animation */}
       <div className="animate-[vibrate_3s_ease-in-out_infinite] origin-center will-change-transform">
-        {/* === MONITOR === */}
-        <div className="relative mx-auto" style={{ width: 'min(42vw, 480px)' }}>
+          {/* === MONITOR === */}
+          <div className="relative mx-auto w-full max-w-[430px]">
           {/* Outer shell */}
           <div className="relative rounded-[18px] shadow-[0_8px_40px_rgba(0,0,0,0.15),inset_0_1px_0_rgba(255,255,255,0.3)] bg-gradient-to-b from-[#E8DCC8] to-[#D8CAB4] p-[3px]">
             {/* Inner bezel */}
@@ -84,7 +84,7 @@ export default function RetroComputer() {
         </div>
 
         {/* === KEYBOARD === */}
-        <div className="mx-auto mt-3 rounded-[8px] bg-gradient-to-b from-[#E3D5C5] to-[#D8CAB4] shadow-[0_4px_12px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.3)] p-[3px]" style={{ width: 'min(38vw, 430px)' }}>
+        <div className="mx-auto mt-3 w-full max-w-[430px] rounded-[8px] bg-gradient-to-b from-[#E3D5C5] to-[#D8CAB4] shadow-[0_4px_12px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.3)] p-[3px]">
           <div className="rounded-[6px] bg-gradient-to-b from-[#D4C4B2] to-[#C8B8A4] p-2 shadow-[inset_0_1px_3px_rgba(0,0,0,0.1)]">
             {/* Cable */}
             <div className="absolute -top-1 right-8 w-[3px] h-3 rounded-full bg-[#A89884]" />

@@ -8,9 +8,9 @@ export default function ProjectsGrid() {
   return (
     <section
       id="projects"
-      className="bg-[#ECE8DC] py-24 md:py-32"
+      className="bg-[#ECE8DC] py-24 md:py-32 scroll-mt-20"
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+      <div className="mx-auto max-w-8xl px-6 md:px-10">
         {/* Editorial header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -19,13 +19,13 @@ export default function ProjectsGrid() {
           transition={{ duration: 0.6 }}
           className="mb-16 md:mb-24"
         >
-          <p className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase">
+          <p className="font-mono text-xl tracking-[0.2em] text-[#FF5C39] uppercase">
             Selected work | Project
           </p>
         </motion.div>
 
         {/* Project grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-x-10 gap-y-16 md:gap-y-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-x-10 gap-y-12 md:gap-y-16">
           {projects.map((project, i) => (
             <motion.div
               key={project.id}

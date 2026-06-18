@@ -56,8 +56,8 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="bg-cream-100 py-24 overflow-hidden">
-      <div className="mx-auto max-w-7xl px-6 md:px-10">
+    <section id="contact" className="bg-cream-100 py-24 md:py-32 overflow-hidden scroll-mt-20">
+      <div className="mx-auto max-w-8xl px-6 md:px-10">
         <div className="grid gap-16 lg:grid-cols-5">
           {/* LEFT: Info */}
           <motion.div
@@ -263,7 +263,7 @@ export default function Contact() {
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="inline-flex items-center gap-2 rounded-full bg-terracotta-500 px-6 py-3.5 text-sm font-semibold text-white transition-all hover:bg-terracotta-600 hover:shadow-lg hover:shadow-terracotta-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    className="inline-flex items-center gap-2 rounded-full bg-terracotta-500 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-terracotta-600 hover:shadow-lg hover:shadow-terracotta-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {submitting ? (
                       <>

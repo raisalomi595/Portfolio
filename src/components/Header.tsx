@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { useScrollTo } from '../hooks/useScrollTo'
 import useActiveSection from '../hooks/useActiveSection'
-import { Link, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const links = [
   { label: 'Projects', target: 'projects' },
@@ -33,16 +33,16 @@ export default function Header() {
         className="flex items-center justify-between py-4 px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
-        <Link
-          to="/"
-          className="text-3xl font-bold tracking-tight text-ink-800"
+        <button
+          onClick={() => scrollTo('hero')}
+          className="text-3xl font-bold tracking-tight text-ink-800 cursor-pointer"
         >
           Salomi<span className="text-terracotta-500">Rai</span>
-        </Link>
+        </button>
 
         <ul className="hidden md:flex items-center gap-8" role="list">
           {links.map((link) => {
-            const isActive = activeSection === link.target
+            const isActive = activeSection !== 'hero' && activeSection === link.target
             return (
               <li key={link.target}>
                 <button
@@ -79,7 +79,7 @@ export default function Header() {
         >
           <ul className="flex flex-col px-6 py-4 gap-4" role="list">
             {links.map((link) => {
-              const isActive = activeSection === link.target
+              const isActive = activeSection !== 'hero' && activeSection === link.target
               return (
                 <li key={link.target}>
                   <button

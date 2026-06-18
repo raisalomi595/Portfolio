@@ -8,8 +8,8 @@ export default function ResumeSection() {
   const [showViewer, setShowViewer] = useState(false)
 
   return (
-    <section id="resume" className="bg-cream-50 py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-6">
+    <section id="resume" className="bg-cream-50 py-24 md:py-32 scroll-mt-20">
+      <div className="mx-auto max-w-8xl px-6 md:px-10">
         <div className="grid gap-12 md:grid-cols-5">
           {/* Left: Title and intro */}
           <motion.div
@@ -129,7 +129,7 @@ export default function ResumeSection() {
             <iframe
               src={RESUME_FILE}
               title="Resume PDF"
-              className="w-full h-[80vh]"
+              className="w-full h-[80vh] max-h-[80vh]"
             />
           </motion.div>
         )}
