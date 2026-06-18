@@ -1,13 +1,10 @@
 import { useState } from 'react'
-import { useForm } from '@formspree/react'
 import { motion } from 'framer-motion'
 import { Send, Check, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
 
-const FORMSPREE_ID = 'YOUR_FORM_ID'
-
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'raisalomi595@gmail.com', href: 'mailto:raisalomi595@gmail.com' },
-  { icon: Phone, label: 'Phone', value: '+977 9807317882', href: 'ph:+9779807317882' },
+  { icon: Phone, label: 'Phone', value: '+977 9807317882', href: 'tel:+9779807317882' },
   { icon: MapPin, label: 'Location', value: 'Dharan, Nepal' },
 ]
 
@@ -26,18 +23,35 @@ const socialLinks = [
 const stagger = (i: number) => ({ delay: i * 0.08 })
 
 export default function Contact() {
-  const [state, handleSubmit] = useForm(FORMSPREE_ID)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [succeeded, setSucceeded] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await handleSubmit(e)
-    if (state.succeeded) {
+    setError('')
+    setSubmitting(true)
+
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/raisalomi595@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      })
+
+      if (!res.ok) throw new Error()
+
+      setSucceeded(true)
       setName('')
       setEmail('')
       setMessage('')
+    } catch {
+      setError('Failed to send. Please email me directly at raisalomi595@gmail.com')
+    } finally {
+      setSubmitting(false)
     }
   }
 
@@ -146,7 +160,7 @@ export default function Contact() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-3"
           >
-            {state.succeeded ? (
+            {succeeded ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -162,7 +176,11 @@ export default function Contact() {
                 </div>
               </motion.div>
             ) : (
-              <form onSubmit={handleFormSubmit} className="space-y-5" aria-label="Contact form">
+              <form onSubmit={handleSubmit} className="space-y-5" aria-label="Contact form">
+                {/* Honeypot to prevent spam */}
+                <input type="text" name="_honey" className="hidden" />
+                <input type="hidden" name="_captcha" value="true" />
+
                 <div className="grid gap-5 sm:grid-cols-2">
                   <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -231,6 +249,10 @@ export default function Contact() {
                   />
                 </motion.div>
 
+                {error && (
+                  <p className="text-sm text-red-500">{error}</p>
+                )}
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -240,10 +262,10 @@ export default function Contact() {
                 >
                   <button
                     type="submit"
-                    disabled={state.submitting}
+                    disabled={submitting}
                     className="inline-flex items-center gap-2 rounded-full bg-terracotta-500 px-6 py-3.5 text-sm font-semibold text-white transition-all hover:bg-terracotta-600 hover:shadow-lg hover:shadow-terracotta-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
-                    {state.submitting ? (
+                    {submitting ? (
                       <>
                         <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
                         Sending...

@@ -4,8 +4,8 @@ export default function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-cream-300 bg-cream-100 py-8">
-      <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
+    <footer className="border-t border-cream-300 py-8">
+      <div className="mx-auto flex max-w-8xl flex-col items-center justify-between gap-4 px-6 sm:flex-row">
         <p className="text-sm text-muted">&copy; {year} Salomi Rai. All rights reserved.</p>
         <div className="flex items-center gap-4 text-muted">
           <a

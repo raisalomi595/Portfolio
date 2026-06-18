@@ -1,66 +1,47 @@
-import { useState } from 'react'
-import { AnimatePresence } from 'framer-motion'
-import { projects, type Project } from '../data/projects'
+import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
+import { projects } from '../data/projects'
 import ProjectCard from './ProjectCard'
-import ProjectModal from './ProjectModal'
-
-const filters = [
-  { label: 'All', value: 'all' as const },
-  { label: 'Frontend', value: 'frontend' as const },
-  { label: 'Fullstack', value: 'fullstack' as const },
-  { label: 'Design', value: 'design' as const },
-]
 
 export default function ProjectsGrid() {
-  const [activeFilter, setActiveFilter] = useState<string>('all')
-  const [selected, setSelected] = useState<Project | null>(null)
-
-  const filtered =
-    activeFilter === 'all'
-      ? projects
-      : projects.filter((p) => p.category === activeFilter)
 
   return (
-    <section id="projects" className="bg-cream-100 py-24">
-      <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-3xl font-bold tracking-tight text-ink-800 sm:text-4xl">
-          Selected work
-        </h2>
-        <p className="mt-2 text-muted max-w-lg">
-          A curated selection of projects spanning frontend, fullstack, and design.
-        </p>
+    <section
+      id="projects"
+      className="bg-[#ECE8DC] py-24 md:py-32"
+    >
+      <div className="mx-auto max-w-[1400px] px-6 md:px-10">
+        {/* Editorial header */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-16 md:mb-24"
+        >
+          <p className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase">
+            Selected work | Project
+          </p>
+        </motion.div>
 
-        <div className="mt-8 flex flex-wrap gap-2" role="group" aria-label="Filter projects by category">
-          {filters.map((f) => (
-            <button
-              key={f.value}
-              onClick={() => setActiveFilter(f.value)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition-all cursor-pointer ${
-                activeFilter === f.value
-                  ? 'bg-ink-800 text-cream-100'
-                  : 'bg-cream-200 text-muted hover:bg-cream-300 hover:text-ink-800'
-              }`}
-              aria-pressed={activeFilter === f.value}
+        {/* Project grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-x-10 gap-y-16 md:gap-y-20">
+          {projects.map((project, i) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              className={i === 0 ? 'lg:col-span-3 lg:row-span-1' : 'lg:col-span-2'}
             >
-              {f.label}
-            </button>
+              <Link to={`/work/${project.id}`} className="block group">
+                <ProjectCard project={project} />
+              </Link>
+            </motion.div>
           ))}
         </div>
-
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          <AnimatePresence mode="popLayout">
-            {filtered.map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                onSelect={setSelected}
-              />
-            ))}
-          </AnimatePresence>
-        </div>
       </div>
-
-      <ProjectModal project={selected} onClose={() => setSelected(null)} />
     </section>
   )
 }

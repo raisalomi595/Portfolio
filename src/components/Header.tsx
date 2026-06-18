@@ -20,7 +20,7 @@ export default function Header() {
 
   const handleNav = (target: string) => {
     if (isResumePage) {
-      window.location.href = '/#' + target
+      window.location.assign('/#' + target)
       return
     }
     scrollTo(target)
