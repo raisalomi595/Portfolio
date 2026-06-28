@@ -118,14 +118,18 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="md:col-span-2"
           >
-            <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-cream-200">
+            <motion.div
+              className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-cream-200"
+              animate={{ y: [0, -5, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
+            >
               <img
                 src="/About.jpeg"
                 alt="Salomi Rai"
                 className="h-full w-full object-cover"
               />
               <CanvasOverlay />
-            </div>
+            </motion.div>
           </motion.div>
 
           {/* Right: Bio */}
