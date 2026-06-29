@@ -96,7 +96,7 @@ export default function Hero() {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="w-full max-w-[400px] lg:max-w-[480px] flex-shrink-0"
+            className="w-full max-w-[270px] lg:max-w-[300px] flex-shrink-0 translate-y-6 lg:translate-y-8"
           >
             <RetroComputer />
           </motion.div>
