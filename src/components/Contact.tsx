@@ -56,7 +56,7 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="bg-cream-100 py-24 md:py-32 overflow-hidden scroll-mt-20">
+    <section id="contact" className="bg-cream-200 py-24 md:py-32 overflow-hidden scroll-mt-20">
       <div className="mx-auto max-w-8xl px-6 md:px-10">
         <div className="grid gap-16 lg:grid-cols-5">
           {/* LEFT: Info */}
