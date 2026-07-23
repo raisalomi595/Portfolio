@@ -156,96 +156,11 @@ export default function RetroComputer() {
           </div>
         </div>
 
-        {/* === DESKTOP CASE === */}
-        <motion.div
-          className="mx-auto mt-2 w-full max-w-[300px] relative"
-          style={{ transform: 'translateZ(8px)' }}
-          animate={{ y: [0, -1.5, 0] }}
-          transition={{ repeat: Infinity, duration: 5, ease: 'easeInOut', delay: 0.3 }}
-        >
-          <div className="absolute -bottom-1 left-[6%] w-[88%] h-3 bg-black/15 blur-md rounded-full" />
 
-          {/* Desktop case outer shell */}
-          <div className="relative rounded-[9px] bg-gradient-to-b from-[#EDE3D0] via-[#E0D4BE] via-[#D6C8B0] to-[#C8B89E] shadow-[0_10px_35px_rgba(0,0,0,0.25),0_3px_8px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.35)] p-[2px]">
-            <PlasticOverlay className="rounded-[9px]" />
-
-            <div className="relative rounded-[7px] bg-gradient-to-b from-[#D4C4B2] via-[#CCBCA8] to-[#C0B09C] p-2 shadow-[inset_0_2px_5px_rgba(0,0,0,0.12),inset_0_-1px_0_rgba(255,255,255,0.15)]">
-              <PlasticOverlay className="rounded-[7px]" />
-
-              {/* Top row: badge + AMIGA + floppy */}
-              <div className="flex items-center gap-1.5">
-                {/* Commodore badge */}
-                <div className="flex-shrink-0">
-                  <svg width="18" height="12" viewBox="0 0 22 15" fill="none">
-                    <rect x="0.5" y="0.5" width="21" height="14" rx="2" fill="url(#cBadge)" stroke="#8A3A1E" strokeWidth="0.5"/>
-                    <rect x="3.5" y="2.5" width="15" height="10" rx="0.5" fill="#2A1A0E" opacity="0.25"/>
-                    <text x="11" y="10.5" textAnchor="middle" fill="white" fontSize="7" fontWeight="bold" fontFamily="Arial, sans-serif">C</text>
-                  </svg>
-                </div>
-
-                {/* AMIGA metallic text */}
-                <div className="flex-1 flex items-center justify-center">
-                  <span
-                    className="text-base font-bold tracking-[0.3em]"
-                    style={{
-                      fontFamily: 'Arial, sans-serif',
-                      background: 'linear-gradient(180deg, #D0D0D0 0%, #A8A8A8 25%, #888 50%, #A0A0A0 75%, #C0C0C0 100%)',
-                      WebkitBackgroundClip: 'text',
-                      WebkitTextFillColor: 'transparent',
-                      filter: 'drop-shadow(0 1px 1px rgba(0,0,0,0.3))',
-                    }}
-                  >
-                    AMIGA
-                  </span>
-                </div>
-
-                {/* Floppy drive */}
-                <div className="flex-shrink-0 flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-gradient-to-b from-[#D0C0AA] via-[#C4B49C] to-[#B8A892] shadow-[inset_0_2px_4px_rgba(0,0,0,0.2),inset_0_-1px_0_rgba(255,255,255,0.15)] flex items-center justify-center">
-                    <div className="w-4 h-4 rounded-full bg-gradient-to-b from-[#4A4A4A] to-[#2A2A2A] shadow-[inset_0_3px_6px_rgba(0,0,0,0.4)] flex items-center justify-center">
-                      <div className="w-[10px] h-[7px] rounded-[1px] bg-[#1a1a1a] shadow-[inset_0_1px_2px_rgba(0,0,0,0.3)]" />
-                    </div>
-                  </div>
-                  {/* Green LED */}
-                  <div className="w-[3px] h-[3px] rounded-full bg-[#2a2a2a] flex items-center justify-center p-[1px]">
-                    <motion.div
-                      className="w-[3px] h-[3px] rounded-full bg-[#4ade80]"
-                      animate={{ opacity: [1, 0.2, 1], boxShadow: ['0 0 6px #4ade80', '0 0 1px #4ade80', '0 0 6px #4ade80'] }}
-                      transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Stickers row */}
-              <div className="flex justify-center gap-2 mt-1.5">
-                {[
-                  { label: 'He', bg: '#E87A2A', border: '#C8601A' },
-                  { label: 'Lp', bg: '#3A7ACA', border: '#2A5AAA' },
-                  { label: 'Me', bg: '#8A4AAA', border: '#6A3A8A' },
-                ].map((s) => (
-                  <motion.div
-                    key={s.label}
-                    className="rounded-[2px] flex items-center justify-center shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_1px_2px_rgba(0,0,0,0.15)]"
-                    style={{
-                      width: '18px',
-                      height: '12px',
-                      background: `linear-gradient(180deg, ${s.bg}, ${s.border})`,
-                    }}
-                    whileHover={{ scale: 1.12, rotate: [0, -4, 4, 0], y: -1 }}
-                    transition={{ duration: 0.25 }}
-                  >
-                    <span className="text-[6px] font-bold text-white drop-shadow-[0_1px_0_rgba(0,0,0,0.3)]" style={{ fontFamily: 'Arial, sans-serif' }}>{s.label}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
 
         {/* === KEYBOARD === */}
         <motion.div
-          className="mx-auto mt-2.5 w-full max-w-[300px] relative"
+          className="mx-auto mt-1.5 w-full max-w-[300px] relative"
           style={{ transform: 'translateZ(6px)' }}
           animate={{ y: [0, -1, 0] }}
           transition={{ repeat: Infinity, duration: 5.5, ease: 'easeInOut', delay: 0.6 }}

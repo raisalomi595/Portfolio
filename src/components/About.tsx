@@ -142,14 +142,14 @@ export default function About() {
   return (
     <section id="about" className="bg-cream-50 py-24 md:py-32 scroll-mt-20">
       <div className="mx-auto max-w-8xl px-6 md:px-10">
-        <div className="grid gap-12 md:grid-cols-5">
+        <div className="grid gap-12 md:grid-cols-12">
           {/* Left: Photo */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="md:col-span-2"
+            className="md:col-span-5"
           >
             <motion.div
               className="relative"
@@ -182,11 +182,11 @@ export default function About() {
 
           {/* Right: Bio */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="md:col-span-3 flex flex-col justify-center"
+            className="md:col-span-7 flex flex-col justify-center"
           >
             <p className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-4">
               About
@@ -195,7 +195,6 @@ export default function About() {
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-ink-800 leading-[1.1]">
               Salomi Rai
             </h2>
-            
 
             <div className="mt-6 space-y-4 text-base text-muted leading-relaxed max-w-xl">
               <p>
@@ -215,14 +214,16 @@ export default function About() {
               </p>
             </div>
 
-            {/* Skills inline */}
-            <div className="mt-6 flex flex-wrap gap-x-1 gap-y-1 text-sm text-ink-800">
-              {skillsList.map((skill, i) => (
-                <span key={skill}>
-                  {i > 0 && <span className="text-terracotta-500 mx-2">◍</span>}
-                  {skill}
-                </span>
-              ))}
+            {/* Skills + Social inline */}
+            <div className="mt-6 flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap gap-x-1 gap-y-1 text-sm text-ink-800">
+                {skillsList.map((skill, i) => (
+                  <span key={skill}>
+                    {i > 0 && <span className="text-terracotta-500 mx-2">◍</span>}
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
 
             {/* Certificates */}
@@ -266,29 +267,35 @@ export default function About() {
                 <Mail size={18} />
               </a>
             </div>
-
-            {/* Currently */}
-            <div className="mt-10 pt-8 border-t border-cream-300">
-              <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-3">
-                Currently
-              </p>
-              <div className="flex flex-wrap gap-x-8 gap-y-2 text-sm text-muted">
-                <span>
-                  <span className="text-ink-800 font-medium">Building</span>{' '}
-                  SecondHome & PeerLearn
-                </span>
-                <span>
-                  <span className="text-ink-800 font-medium">Learning</span>{' '}
-                  Java & MySQL
-                </span>
-                <span>
-                  <span className="text-ink-800 font-medium">Reading</span>{' '}
-                  Clean Code
-                </span>
-              </div>
-            </div>
           </motion.div>
         </div>
+
+        {/* Currently — full width below */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="mt-16 pt-10 border-t border-cream-300"
+        >
+          <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-5">
+            Currently
+          </p>
+          <div className="grid gap-6 sm:grid-cols-3">
+            <div className="rounded-sm bg-cream-100 px-5 py-4">
+              <span className="text-ink-800 font-medium text-sm">Building</span>
+              <p className="text-sm text-muted mt-1">SecondHome & PeerLearn</p>
+            </div>
+            <div className="rounded-sm bg-cream-100 px-5 py-4">
+              <span className="text-ink-800 font-medium text-sm">Learning</span>
+              <p className="text-sm text-muted mt-1">Java & MySQL</p>
+            </div>
+            <div className="rounded-sm bg-cream-100 px-5 py-4">
+              <span className="text-ink-800 font-medium text-sm">Reading</span>
+              <p className="text-sm text-muted mt-1">Clean Code</p>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
