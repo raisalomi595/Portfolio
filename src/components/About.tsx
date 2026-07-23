@@ -43,49 +43,82 @@ function CanvasOverlay() {
 
       ctx.clearRect(0, 0, w, h)
 
-      // Canvas weave texture
-      const step = 6
-      ctx.strokeStyle = 'rgba(139, 129, 116, 0.12)'
-      ctx.lineWidth = 0.5
+      // Thick canvas weave texture
+      const step = 10
+      ctx.strokeStyle = 'rgba(139, 129, 116, 0.25)'
+      ctx.lineWidth = 1.2
       for (let x = 0; x < w; x += step) {
         ctx.beginPath()
         ctx.moveTo(x, 0)
-        ctx.lineTo(x + step * 0.5, h)
+        ctx.lineTo(x + step, h)
         ctx.stroke()
       }
       for (let y = 0; y < h; y += step) {
         ctx.beginPath()
         ctx.moveTo(0, y)
-        ctx.lineTo(w, y + step * 0.5)
+        ctx.lineTo(w, y + step)
         ctx.stroke()
+      }
+
+      // Cross-thread weave
+      ctx.strokeStyle = 'rgba(139, 129, 116, 0.1)'
+      ctx.lineWidth = 0.6
+      for (let x = 0; x < w; x += step * 2) {
+        ctx.beginPath()
+        ctx.moveTo(x + step * 0.5, 0)
+        ctx.lineTo(x, h)
+        ctx.stroke()
+      }
+
+      // Canvas grain dots
+      for (let i = 0; i < 200; i++) {
+        const x = Math.random() * w
+        const y = Math.random() * h
+        const r = 0.5 + Math.random() * 1.5
+        ctx.beginPath()
+        ctx.arc(x, y, r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(139, 129, 116, ${0.05 + Math.random() * 0.1})`
+        ctx.fill()
+      }
+
+      // Paint daub strokes
+      for (let i = 0; i < 40; i++) {
+        const x = Math.random() * w
+        const y = Math.random() * h
+        const r = 3 + Math.random() * 15
+        const alpha = 0.02 + Math.random() * 0.04
+        ctx.beginPath()
+        ctx.arc(x, y, r, 0, Math.PI * 2)
+        ctx.fillStyle = `hsla(30, 15%, 65%, ${alpha})`
+        ctx.fill()
       }
 
       // Subtle vignette
       const grad = ctx.createRadialGradient(w / 2, h / 2, w * 0.2, w / 2, h / 2, w * 0.7)
       grad.addColorStop(0, 'rgba(0,0,0,0)')
-      grad.addColorStop(1, 'rgba(0,0,0,0.08)')
+      grad.addColorStop(1, 'rgba(0,0,0,0.12)')
       ctx.fillStyle = grad
       ctx.fillRect(0, 0, w, h)
 
       // Animated film grain
       const grain = ctx.createImageData(w, h)
       for (let i = 0; i < grain.data.length; i += 4) {
-        const noise = (Math.random() - 0.5) * 12
+        const noise = (Math.random() - 0.5) * 20
         grain.data[i] = 128 + noise
         grain.data[i + 1] = 128 + noise
         grain.data[i + 2] = 128 + noise
-        grain.data[i + 3] = 6
+        grain.data[i + 3] = 10
       }
       ctx.putImageData(grain, 0, 0)
 
-      // Warp shift — subtle horizontal wave
+      // Warp shift
       if (hover < 1) {
         const warp = ctx.getImageData(0, 0, w, h)
         const shift = Math.sin(time * 0.8) * 1.5
         ctx.putImageData(warp, shift, 0)
       }
 
-      canvas.style.opacity = String(Math.max(0, 1 - hover * 0.85))
+      canvas.style.opacity = String(Math.max(0.85, 1 - hover * 0.7))
       animId = requestAnimationFrame(draw)
     }
 
@@ -99,7 +132,7 @@ function CanvasOverlay() {
   return (
     <canvas
       ref={ref}
-      className="absolute inset-0 w-full h-full pointer-events-auto"
+      className="absolute inset-0 w-full h-full pointer-events-auto mix-blend-multiply"
       aria-hidden="true"
     />
   )
@@ -119,16 +152,31 @@ export default function About() {
             className="md:col-span-2"
           >
             <motion.div
-              className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-cream-200"
+              className="relative"
               animate={{ y: [0, -5, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
             >
-              <img
-                src="/About.jpeg"
-                alt="Salomi Rai"
-                className="h-full w-full object-cover"
-              />
-              <CanvasOverlay />
+              {/* Canvas background */}
+              <div className="absolute -inset-4 rounded-sm bg-[#E8DEC9] shadow-inner overflow-hidden">
+                <div className="w-full h-full opacity-30" style={{
+                  backgroundImage: `
+                    repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(139,129,116,0.15) 8px, rgba(139,129,116,0.15) 9px),
+                    repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(139,129,116,0.15) 8px, rgba(139,129,116,0.15) 9px)
+                  `
+                }} />
+              </div>
+              {/* Image container */}
+              <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-cream-200 shadow-lg">
+                <img
+                  src="/About.jpeg"
+                  alt="Salomi Rai"
+                  className="h-full w-full object-cover"
+                />
+                <CanvasOverlay />
+              </div>
+              {/* Canvas frame border accents */}
+              <div className="absolute -inset-4 rounded-sm border-2 border-[#C9B896] pointer-events-none" />
+              <div className="absolute -inset-4 rounded-sm border border-white/20 pointer-events-none" />
             </motion.div>
           </motion.div>
 

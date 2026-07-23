@@ -8,7 +8,7 @@ export default function ResumeSection() {
   const [showViewer, setShowViewer] = useState(false)
 
   return (
-    <section id="resume" className="bg-cream-100 py-24 md:py-32 scroll-mt-20">
+    <section id="resume" className="bg-[#F5EDE4] py-24 md:py-32 scroll-mt-20">
       <div className="mx-auto max-w-8xl px-6 md:px-10">
         <div className="grid gap-12 md:grid-cols-5">
           {/* Left: Title and intro */}
