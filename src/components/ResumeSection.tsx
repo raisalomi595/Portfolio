@@ -4,12 +4,89 @@ import { motion } from 'framer-motion'
 
 const RESUME_FILE = '/SalomiRai_CV.pdf'
 
+const decorate = [
+  { type: 'star', top: '5%', left: '5%', size: 22, color: '#E63946', delay: 0.1, dur: 4 },
+  { type: 'star', top: '12%', right: '10%', size: 16, color: '#D97B7B', delay: 0.2, dur: 5 },
+  { type: 'star', bottom: '18%', left: '12%', size: 18, color: '#C73E3E', delay: 0.15, dur: 3.5 },
+  { type: 'circle', top: '30%', right: '6%', size: 12, color: '#E63946', delay: 0.25, dur: 3, bob: 10 },
+  { type: 'circle', bottom: '30%', left: '4%', size: 10, color: '#D63239', delay: 0.3, dur: 4, bob: 8 },
+  { type: 'circle', top: '55%', right: '14%', size: 14, color: '#D97B7B', delay: 0.1, dur: 3.5, bob: 12 },
+  { type: 'rect', bottom: '12%', right: '8%', size: 14, color: '#C73E3E', delay: 0.2, dur: 4.5 },
+  { type: 'rect', top: '65%', left: '8%', size: 12, color: '#E63946', delay: 0.35, dur: 3 },
+  { type: 'rect', bottom: '40%', right: '18%', size: 16, color: '#D63239', delay: 0.15, dur: 5 },
+]
+
 export default function ResumeSection() {
   const [showViewer, setShowViewer] = useState(false)
 
   return (
-    <section id="resume" className="bg-[#F5EDE4] py-24 md:py-32 scroll-mt-20">
-      <div className="mx-auto max-w-8xl px-6 md:px-10">
+    <section id="resume" className="relative bg-[#F5EDE4] py-24 md:py-32 scroll-mt-20 overflow-hidden">
+      {/* Animated background decorations */}
+      <div className="absolute inset-0 z-0 pointer-events-none hidden md:block">
+        {decorate.map((d, i) => {
+          const baseStyle: React.CSSProperties = {
+            position: 'absolute',
+            fontSize: d.size,
+            color: d.color,
+            top: d.top,
+            left: d.left,
+            right: d.right as string | undefined,
+            bottom: d.bottom as string | undefined,
+          }
+          if (d.type === 'star') {
+            return (
+              <motion.span
+                key={i}
+                style={baseStyle}
+                initial={{ opacity: 0, scale: 0, rotate: 0 }}
+                animate={{ opacity: 1, scale: 1, rotate: 360 }}
+                transition={{
+                  opacity: { duration: 0.6, delay: d.delay },
+                  scale: { duration: 0.6, delay: d.delay },
+                  rotate: { duration: d.dur, repeat: Infinity, ease: 'linear' },
+                }}
+              >
+                ★
+              </motion.span>
+            )
+          }
+          if (d.type === 'circle') {
+            return (
+              <motion.span
+                key={i}
+                style={baseStyle}
+                initial={{ opacity: 0, scale: 0, y: 0 }}
+                animate={{ opacity: 1, scale: 1, y: [0, -(d.bob ?? 8), 0] }}
+                transition={{
+                  opacity: { duration: 0.6, delay: d.delay },
+                  scale: { duration: 0.6, delay: d.delay },
+                  y: { duration: d.dur, repeat: Infinity, ease: 'easeInOut' },
+                }}
+              >
+                ●
+              </motion.span>
+            )
+          }
+          if (d.type === 'rect') {
+            return (
+              <motion.span
+                key={i}
+                style={{ ...baseStyle, width: d.size, height: d.size, display: 'inline-block' }}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: [1, 1.3, 1] }}
+                transition={{
+                  opacity: { duration: 0.6, delay: d.delay },
+                  scale: { duration: d.dur, repeat: Infinity, ease: 'easeInOut' },
+                }}
+              >
+                ■
+              </motion.span>
+            )
+          }
+          return null
+        })}
+      </div>
+      <div className="mx-auto max-w-8xl px-6 md:px-10 relative z-10">
         <div className="grid gap-12 md:grid-cols-5">
           {/* Left: Title and intro */}
           <motion.div
