@@ -20,7 +20,11 @@ const socialLinks = [
   { icon: SocialGithub, label: 'GitHub', href: 'https://github.com/raisalomi595' },
 ]
 
-const stagger = (i: number) => ({ delay: i * 0.08 })
+const decorations = [
+  { char: '✦', top: '10%', right: '5%', size: 18, color: '#E63946', delay: 0 },
+  { char: '●', top: '50%', right: '12%', size: 10, color: '#D97B7B', delay: 0.15 },
+  { char: '■', top: undefined, bottom: '20%', right: '8%', size: 12, color: '#C73E3E', delay: 0.1 },
+] as { char: string; top?: string; bottom?: string; right: string; size: number; color: string; delay: number }[]
 
 export default function Contact() {
   const [name, setName] = useState('')
@@ -56,8 +60,27 @@ export default function Contact() {
   }
 
   return (
-    <section id="contact" className="bg-cream-200 py-24 md:py-32 overflow-hidden scroll-mt-20">
-      <div className="mx-auto max-w-8xl px-6 md:px-10">
+    <section id="contact" className="relative bg-cream-200 py-24 md:py-32 overflow-hidden scroll-mt-20">
+      <div className="absolute inset-0 z-0 pointer-events-none hidden md:block">
+        {decorations.map((d, i) => (
+          <motion.span
+            key={i}
+            className="absolute"
+            style={{ top: d.top, right: d.right, bottom: d.bottom, fontSize: d.size, color: d.color }}
+            initial={{ opacity: 0, scale: 0 }}
+            whileInView={{ opacity: [0, 1, 0.3], scale: [0, 1, 1], y: [0, 0, 0, -6, 0] }}
+            viewport={{ once: true }}
+            transition={{
+              opacity: { times: [0, 0.3, 1], duration: 1.5, delay: d.delay },
+              scale: { times: [0, 0.3, 1], duration: 1.5, delay: d.delay },
+              y: { duration: 4 + i, repeat: Infinity, ease: 'easeInOut', delay: d.delay + 0.8, repeatDelay: 0.5 },
+            }}
+          >
+            {d.char}
+          </motion.span>
+        ))}
+      </div>
+      <div className="mx-auto max-w-8xl px-6 md:px-10 relative z-10">
         <div className="grid gap-16 lg:grid-cols-5">
           {/* LEFT: Info */}
           <motion.div
@@ -84,7 +107,7 @@ export default function Contact() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-800 leading-[1.15]"
             >
-              I'm currently seeking internship opportunities and looking to grow my experience in web development.
+              I'm currently seeking job opportunities and looking to grow my experience in web development.
             </motion.h2>
 
             <motion.p
@@ -106,12 +129,16 @@ export default function Contact() {
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.4, ...stagger(i) }}
+                    transition={{ duration: 0.4, delay: i * 0.08 }}
                     className="flex items-center gap-3 text-sm"
                   >
-                    <span className="flex h-8 w-8 items-center justify-center rounded-full bg-cream-200 text-terracotta-500">
+                    <motion.span
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-cream-200 text-terracotta-500"
+                      animate={{ y: [0, -3, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
+                    >
                       <Icon size={15} />
-                    </span>
+                    </motion.span>
                     {item.href ? (
                       <a href={item.href} className="text-muted hover:text-ink-800 transition-colors">
                         {item.value}
@@ -136,17 +163,24 @@ export default function Contact() {
               {socialLinks.map((link) => {
                 const Icon = link.icon
                 return (
-                  <a
+                  <motion.a
                     key={link.label}
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-terracotta-500 transition-colors group"
+                    whileHover={{ x: 3, color: '#C97B5A' }}
+                    transition={{ type: 'spring', stiffness: 200 }}
+                    className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors group"
                   >
                     <Icon size={16} />
                     {link.label}
-                    <ArrowUpRight size={12} className="opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 transition-all" />
-                  </a>
+                    <motion.span
+                      animate={{ x: [0, 3, 0] }}
+                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                    >
+                      <ArrowUpRight size={12} />
+                    </motion.span>
+                  </motion.a>
                 )
               })}
             </motion.div>
@@ -167,9 +201,19 @@ export default function Contact() {
                 className="flex items-center gap-4 rounded-2xl bg-cream-200 border border-cream-300 p-8"
                 role="status"
               >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-terracotta-500/10">
-                  <Check size={24} className="text-terracotta-500" />
-                </div>
+                <motion.div
+                  className="flex h-12 w-12 items-center justify-center rounded-full bg-terracotta-500/10"
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                >
+                  <motion.span
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <Check size={24} className="text-terracotta-500" />
+                  </motion.span>
+                </motion.div>
                 <div>
                   <p className="text-lg font-semibold text-ink-800">Message sent!</p>
                   <p className="text-sm text-muted">Thanks for reaching out — I'll get back to you soon.</p>
@@ -260,10 +304,12 @@ export default function Contact() {
                   transition={{ duration: 0.4, delay: 0.25 }}
                   className="flex items-center gap-3"
                 >
-                  <button
+                  <motion.button
                     type="submit"
                     disabled={submitting}
-                    className="inline-flex items-center gap-2 rounded-full bg-terracotta-500 px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-terracotta-600 hover:shadow-lg hover:shadow-terracotta-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    whileHover={{ scale: 1.04 }}
+                    whileTap={{ scale: 0.96 }}
+                    className="inline-flex items-center gap-2 rounded-full bg-terracotta-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-terracotta-600 hover:shadow-lg hover:shadow-terracotta-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                   >
                     {submitting ? (
                       <>
@@ -273,10 +319,15 @@ export default function Contact() {
                     ) : (
                       <>
                         Send Message
-                        <Send size={15} />
+                        <motion.span
+                          animate={{ x: [0, 3, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+                        >
+                          <Send size={15} />
+                        </motion.span>
                       </>
                     )}
-                  </button>
+                  </motion.button>
                   <span className="text-xs text-muted">I'll respond within 24h</span>
                 </motion.div>
               </form>

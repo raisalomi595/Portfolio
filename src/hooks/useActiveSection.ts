@@ -20,7 +20,7 @@ export default function useActiveSection() {
       const el = document.getElementById(id)
       if (el) {
         const observer = new IntersectionObserver(handleIntersect(id), {
-          rootMargin: '-30% 0px -60% 0px',
+          rootMargin: '-20% 0px -35% 0px',
           threshold: 0,
         })
         observer.observe(el)
