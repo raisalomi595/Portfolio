@@ -29,6 +29,58 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'jobnepal',
+    title: 'JobNepal',
+    description: 'Job Portal Frontend for Nepal',
+    category: 'frontend',
+    image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=600&fit=crop',
+    gallery: [
+      'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=1200&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=1200&h=800&fit=crop',
+      'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=800&fit=crop',
+    ],
+    type: 'Job Portal Frontend for Nepal',
+    duration: 'May 2026 – June 2026',
+    overview:
+      'A modern job portal frontend built for the Nepali market, featuring real job listings from top Nepali companies with authentic company logos. Provides a seamless experience for job seekers to browse, search, and apply for positions across multiple categories.',
+    problem:
+      'Existing job platforms in Nepal had poor user experiences — cluttered interfaces, slow load times, and no mobile responsiveness. Job seekers struggled to find relevant positions, and companies lacked a modern platform to showcase their openings with proper branding.',
+    research:
+      'Analyzed the top 5 job platforms in Nepal and surveyed 40+ job seekers. Key findings: 82% used mobile phones for job hunting, 67% abandoned searches due to poor UX, and company logos/branding were a major trust signal that most platforms failed to display properly.',
+    wireframes:
+      'Created wireframes for all key flows: home page with instant jobs sidebar, job listing with filters, job detail with breadcrumbs, and the employer/authentication pages. Prioritized content hierarchy and fast access to key actions.',
+    uiDesign:
+      'Designed a clean, modern interface with a warm professional palette. Focused on readability and scannability of job listings. Used Tailwind CSS 4 utility classes for consistent spacing, typography, and responsive behavior across all breakpoints.',
+    development:
+      'Built with React 19 and Vite 8 for fast development and optimized production builds. Used React Router v7 for client-side routing with nested layouts. Tailwind CSS 4 enabled rapid UI development with a consistent design system.',
+    technologies: ['React 19', 'Vite 8', 'Tailwind CSS 4', 'React Router v7', 'ESLint'],
+    challenges:
+      'Sourcing and displaying authentic company logos required handling multiple fallback strategies. Some logos came from CDN, others from company websites, and missing ones needed generated avatars. The sidebar layout (Instant Jobs + Hot Jobs) also required careful responsive design.',
+    solutions:
+      'Implemented a multi-layered logo resolution system: primary source → CDN → website scrape → ui-avatars fallback. Used CSS grid with named areas for the sidebar layout, with a stacked layout on mobile and a two-column layout on desktop.',
+    results:
+      'Successfully deployed on Vercel with 100+ real job listings from companies like Ncell, Nabil Bank, Nepal Telecom, Yeti Airlines, and Pathao. Achieved Lighthouse scores of 95+ on performance and accessibility.',
+    lessons:
+      'Building a production-quality frontend with real data taught me the importance of graceful fallbacks and defensive rendering. Vite 8\'s fast HMR and build pipeline made iteration significantly faster than older tooling.',
+    features: [
+      'Real job listings from Nepali companies',
+      'Company logos with fallback chain',
+      'Job detail page with breadcrumbs',
+      'Browse all jobs with search',
+      'Employer registration portal',
+      'User authentication (login/signup)',
+      'Responsive sidebar layout',
+      'Instant Jobs & Hot Jobs sections',
+    ],
+    architecture:
+      'Single-page application built with React 19 and Vite 8. Uses React Router v7 for declarative routing with nested layouts. Component architecture follows a feature-based directory structure. Styling uses Tailwind CSS 4 with custom theme tokens. Data is managed through React state and props with a service layer for API integration.',
+    role: 'Frontend Developer & UI Designer',
+    timeline: '1 month (May 2026 – June 2026)',
+    liveUrl: 'https://job-nepal.vercel.app',
+    repoUrl: 'https://github.com/raisalomi595/JobNepal',
+    nextProjectId: 'secondhome',
+  },
+  {
     id: 'secondhome',
     title: 'SecondHome',
     description: 'Smart Digital Hostel Management System',
@@ -124,6 +176,7 @@ export const projects: Project[] = [
       'MVC architecture with Java servlets as controllers, JSP for views, and DAO pattern for data access. MySQL database with fully normalized schema (3NF). Frontend uses vanilla JavaScript with Fetch API for async operations.',
     role: 'Full-stack Developer & Database Designer',
     timeline: '5 months (Jan 2026 – May 2026)',
-    nextProjectId: 'secondhome',
+    nextProjectId: 'jobnepal',
   },
 ]
+
