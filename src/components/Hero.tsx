@@ -30,7 +30,7 @@ export default function Hero() {
               transition={{ duration: 0.5 }}
               className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-4"
             >
-              Available For Work &amp; Nepal
+              Design, Build &amp; Serve
             </motion.p>
 
             <motion.h1

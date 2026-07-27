@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Mail } from 'lucide-react'
+import { Mail, Award } from 'lucide-react'
 
 const skillsList = [
   'React.js',
@@ -228,15 +228,32 @@ export default function About() {
 
             {/* Certificates */}
             <div className="mt-8">
-              <p className="text-sm font-medium text-ink-800 mb-2">Certificates</p>
-              <div className="space-y-1">
-                <p className="text-sm text-muted">
-                  Java Object-Oriented Programming (OOP)
-                </p>
-                <p className="text-xs text-muted/70 break-all">
-                  LinkedIn Learning | Credential ID: 255728632bca084b92e4cd1cda91880c1c1843a99c5529cccbe5ce0fd3c6ecec
-                </p>
-              </div>
+              <p className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-3">
+                Certificates
+              </p>
+              <a
+                href="/CertificateOfCompletion_Java%20ObjectOriented%20Programming.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative block rounded-sm border border-cream-300 bg-cream-100/80 px-4 py-3 pr-12 transition-all hover:bg-cream-200 hover:border-terracotta-500/40 hover:shadow-md"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-terracotta-500/10 text-terracotta-600 transition-colors group-hover:bg-terracotta-500 group-hover:text-white">
+                    <Award size={16} />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-ink-800 transition-colors group-hover:text-terracotta-600">
+                      Java Object-Oriented Programming (OOP)
+                    </p>
+                    <p className="mt-0.5 text-xs text-muted/70">
+                      LinkedIn Learning
+                    </p>
+                  </div>
+                </div>
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted/40 transition-colors group-hover:text-terracotta-500">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+                </span>
+              </a>
             </div>
 
             {/* Social links */}

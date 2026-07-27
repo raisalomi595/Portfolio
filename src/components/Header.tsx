@@ -50,7 +50,7 @@ export default function Header() {
                   className={`text-sm font-medium transition-colors cursor-pointer ${
                     isActive
                       ? 'text-terracotta-500'
-                      : 'text-muted hover:text-ink-800'
+                      : 'text-muted hover:text-terracotta-500'
                   }`}
                 >
                   {link.label}
@@ -87,7 +87,7 @@ export default function Header() {
                     className={`w-full text-left text-sm font-medium py-2 cursor-pointer ${
                       isActive
                         ? 'text-terracotta-500'
-                        : 'text-muted hover:text-ink-800'
+                        : 'text-muted hover:text-terracotta-500'
                     }`}
                   >
                     {link.label}
