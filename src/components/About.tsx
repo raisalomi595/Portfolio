@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Mail, Award } from 'lucide-react'
 
 const skillsList = [
@@ -32,8 +32,10 @@ function CanvasOverlay() {
     resize()
     window.addEventListener('resize', resize)
 
-    canvas.addEventListener('mouseenter', () => { hoverRef.current = 1 })
-    canvas.addEventListener('mouseleave', () => { hoverRef.current = 0 })
+    const onMouseEnter = () => { hoverRef.current = 1 }
+    const onMouseLeave = () => { hoverRef.current = 0 }
+    canvas.addEventListener('mouseenter', onMouseEnter)
+    canvas.addEventListener('mouseleave', onMouseLeave)
 
     const draw = () => {
       time += 0.016
@@ -126,6 +128,8 @@ function CanvasOverlay() {
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
+      canvas.removeEventListener('mouseenter', onMouseEnter)
+      canvas.removeEventListener('mouseleave', onMouseLeave)
     }
   }, [])
 
@@ -144,14 +148,14 @@ export default function About() {
       <div className="mx-auto max-w-8xl px-6 md:px-10">
         <div className="grid gap-12 md:grid-cols-12">
           {/* Left: Photo */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="md:col-span-5"
           >
-            <motion.div
+            <m.div
               className="relative"
               animate={{ y: [0, -5, 0] }}
               transition={{ repeat: Infinity, duration: 4, ease: 'easeInOut' }}
@@ -177,18 +181,18 @@ export default function About() {
               {/* Canvas frame border accents */}
               <div className="absolute -inset-4 rounded-sm border-2 border-[#C9B896] pointer-events-none" />
               <div className="absolute -inset-4 rounded-sm border border-white/20 pointer-events-none" />
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
           {/* Right: Bio */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="md:col-span-7 flex flex-col justify-center"
           >
-            <p className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-4">
+            <p className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-4 font-heading">
               About
             </p>
 
@@ -228,7 +232,7 @@ export default function About() {
 
             {/* Certificates */}
             <div className="mt-8">
-              <p className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-3">
+              <p className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-3 font-heading">
                 Certificates
               </p>
               <a
@@ -284,18 +288,18 @@ export default function About() {
                 <Mail size={18} />
               </a>
             </div>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Currently — full width below */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="mt-16 pt-10 border-t border-cream-300"
         >
-          <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-5">
+          <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-5 font-heading">
             Currently
           </p>
           <div className="grid gap-6 sm:grid-cols-3">
@@ -312,7 +316,7 @@ export default function About() {
               <p className="text-sm text-muted mt-1">Clean Code</p>
             </div>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   )

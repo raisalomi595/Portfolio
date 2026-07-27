@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform } from 'framer-motion'
 import { ArrowDown, Mail } from 'lucide-react'
 import { useScrollTo } from '../hooks/useScrollTo'
 import PlaidBackground from './PlaidBackground'
@@ -18,22 +18,22 @@ export default function Hero() {
       <div className="relative z-10 w-full min-h-screen flex items-start sm:items-center px-6 md:px-10 pt-24 sm:pt-0">
         <div className="mx-auto flex w-full max-w-8xl flex-col lg:flex-row items-center gap-10 lg:gap-16">
           {/* Left: Intro */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="flex-1 w-full"
           >
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-4"
+              className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-4 font-heading"
             >
               Design, Build &amp; Serve
-            </motion.p>
+            </m.p>
 
-            <motion.h1
+            <m.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
@@ -41,9 +41,9 @@ export default function Hero() {
             >
               Web<br />
               <span className="text-terracotta-500">Developer</span>
-            </motion.h1>
+            </m.h1>
 
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
@@ -51,9 +51,9 @@ export default function Hero() {
             >
               I build accessible, performant web experiences. React ecosystems,
               design systems, and full-stack TypeScript.
-            </motion.p>
+            </m.p>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
@@ -71,9 +71,9 @@ export default function Hero() {
               >
                 Get in touch
               </button>
-            </motion.div>
+            </m.div>
 
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.5 }}
@@ -88,34 +88,34 @@ export default function Hero() {
               <a href="mailto:raisalomi595@gmail.com" aria-label="Email" className="transition-colors hover:text-ink-800">
                 <Mail size={20} />
               </a>
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
           {/* Right: Retro Computer */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.3 }}
             className="w-full max-w-[270px] lg:max-w-[300px] flex-shrink-0 translate-y-6 lg:translate-y-8"
           >
             <RetroComputer />
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
+      <m.div
         style={{ opacity: useTransform(scrollY, [0, 300], [1, 0]) }}
         className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted z-20"
       >
         <span className="text-xs font-medium uppercase tracking-widest">Scroll</span>
-        <motion.div
+        <m.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
         >
           <ArrowDown size={16} />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </section>
   )
 }

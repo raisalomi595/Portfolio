@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { projects } from '../data/projects'
 import ProjectCard from './ProjectCard'
 
@@ -12,7 +12,7 @@ export default function ProjectsGrid() {
     >
       <div className="mx-auto max-w-8xl px-6 md:px-10">
         {/* Editorial header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -22,12 +22,12 @@ export default function ProjectsGrid() {
           <p className="font-mono text-xl tracking-[0.2em] text-[#FF5C39] uppercase">
             Selected work | Project
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Project grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-x-10 gap-y-12 md:gap-y-16">
           {projects.map((project, i) => (
-            <motion.div
+            <m.div
               key={project.id}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -38,7 +38,7 @@ export default function ProjectsGrid() {
               <Link to={`/work/${project.id}`} className="block group">
                 <ProjectCard project={project} />
               </Link>
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </div>

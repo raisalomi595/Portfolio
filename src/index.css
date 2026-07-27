@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  --font-heading: 'Special Elite', serif;
+  --font-body: 'Inconsolata', monospace;
   --color-cream-50: #FAF7F2;
   --color-cream-100: #F5F0EB;
   --color-cream-200: #EDE6DC;
@@ -14,8 +16,26 @@
   --color-muted: #8B8174;
 }
 
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+  body {
+    font-family: var(--font-body);
+  }
+}
+
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .skip-link {

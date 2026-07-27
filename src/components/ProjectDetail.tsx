@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react'
 import { projects } from '../data/projects'
 import Footer from './Footer'
@@ -64,7 +64,7 @@ export default function ProjectDetail() {
       {/* Hero */}
       <section className="pt-16 pb-12 md:pb-20">
         <div className="mx-auto max-w-7xl px-6 md:px-10">
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
@@ -78,12 +78,12 @@ export default function ProjectDetail() {
             <p className="mt-4 text-sm text-[#8B8174] font-mono max-w-xl">
               {project.type}
             </p>
-          </motion.div>
+          </m.div>
         </div>
       </section>
 
       {/* Hero Image */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
@@ -96,23 +96,23 @@ export default function ProjectDetail() {
             className="h-full w-full object-cover"
           />
         </div>
-      </motion.div>
+      </m.div>
 
       {/* Project Info Bar */}
       <div className="mx-auto max-w-7xl px-6 md:px-10 mb-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 border-t border-dashed border-[#FF5C39]/20 pt-10">
-          <motion.div {...fadeUp(0.1)}>
-            <motion.h3 {...fadeIn} className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase mb-4">Role</motion.h3>
+          <m.div {...fadeUp(0.1)}>
+            <m.h3 {...fadeIn} className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase mb-4">Role</m.h3>
             <p className="text-sm text-[#3D3830] leading-relaxed">{project.role}</p>
-          </motion.div>
-          <motion.div {...fadeUp(0.2)}>
-            <motion.h3 {...fadeIn} className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase mb-4">Timeline</motion.h3>
+          </m.div>
+          <m.div {...fadeUp(0.2)}>
+            <m.h3 {...fadeIn} className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase mb-4">Timeline</m.h3>
             <p className="text-sm text-[#3D3830] leading-relaxed">{project.timeline}</p>
-          </motion.div>
-          <motion.div {...fadeUp(0.3)}>
-            <motion.h3 {...fadeIn} className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase mb-4">Type</motion.h3>
+          </m.div>
+          <m.div {...fadeUp(0.3)}>
+            <m.h3 {...fadeIn} className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase mb-4">Type</m.h3>
             <p className="text-sm text-[#3D3830] leading-relaxed">{project.type}</p>
-          </motion.div>
+          </m.div>
         </div>
       </div>
 
@@ -161,7 +161,7 @@ export default function ProjectDetail() {
         <Heading>Gallery</Heading>
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           {project.gallery.map((img, i) => (
-            <motion.div
+            <m.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -174,7 +174,7 @@ export default function ProjectDetail() {
                 alt={`${project.title} gallery ${i + 1}`}
                 className="h-full w-full object-cover"
               />
-            </motion.div>
+            </m.div>
           ))}
         </div>
       </Section>
@@ -198,7 +198,7 @@ export default function ProjectDetail() {
       {/* Technologies */}
       <Section>
         <Heading>Technologies Used</Heading>
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -213,7 +213,7 @@ export default function ProjectDetail() {
               {tech}
             </span>
           ))}
-        </motion.div>
+        </m.div>
       </Section>
 
       {/* Key Features */}
@@ -298,7 +298,7 @@ export default function ProjectDetail() {
       {/* Next Project */}
       {nextProject && (
         <Section noBorder={false}>
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -319,7 +319,7 @@ export default function ProjectDetail() {
                 className="text-[#FF5C39] group-hover:translate-x-1 transition-transform"
               />
             </Link>
-          </motion.div>
+          </m.div>
         </Section>
       )}
 
@@ -344,18 +344,18 @@ function Inner({ children }: { children: React.ReactNode }) {
 
 function Heading({ children }: { children: React.ReactNode }) {
   return (
-    <motion.h3
+    <m.h3
       {...fadeIn}
       className="font-mono text-xs tracking-[0.2em] text-[#FF5C39] uppercase mb-4"
     >
       {children}
-    </motion.h3>
+    </m.h3>
   )
 }
 
 function Body({ children }: { children: React.ReactNode }) {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -363,6 +363,6 @@ function Body({ children }: { children: React.ReactNode }) {
       className="text-sm text-[#3D3830] leading-relaxed space-y-4"
     >
       {children}
-    </motion.div>
+    </m.div>
   )
 }

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { motion, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform } from 'framer-motion'
 
 export default function PlaidBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -97,7 +97,7 @@ export default function PlaidBackground() {
   }, [])
 
   return (
-    <motion.canvas
+    <m.canvas
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none"
       style={{ y: bgY }}

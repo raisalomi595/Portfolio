@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import CodeScreen from './CodeScreen'
 import { useTilt } from '../hooks/useTilt'
 
@@ -24,7 +24,7 @@ export default function RetroComputer() {
       {/* Floor shadow */}
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[85%] h-8 bg-black/25 blur-2xl rounded-full" />
 
-      <motion.div
+      <m.div
         {...tilt}
         style={{ ...tilt.style, perspective: 900, transformStyle: 'preserve-3d' }}
         className="relative z-10 origin-center will-change-transform"
@@ -109,7 +109,7 @@ export default function RetroComputer() {
                       <div className="flex items-center justify-between mb-2">
                         <div className="relative flex items-center gap-1.5">
                           <div className="w-2 h-2 rounded-full bg-[#3a3a3a] flex items-center justify-center p-0.5">
-                            <motion.div
+                            <m.div
                               className="w-1.5 h-1.5 rounded-full bg-[#4ade80]"
                               animate={{ boxShadow: ['0 0 4px #4ade80', '0 0 12px #4ade80', '0 0 4px #4ade80'] }}
                               transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
@@ -134,7 +134,7 @@ export default function RetroComputer() {
                 {/* Vents */}
                 <div className="flex justify-center gap-1.5 mt-2">
                   {Array.from({ length: 12 }).map((_, i) => (
-                    <motion.div
+                    <m.div
                       key={i}
                       className="w-[5px] h-[2px] rounded-full bg-gradient-to-r from-[#B8A892] to-[#A89884] shadow-[inset_0_1px_0_rgba(0,0,0,0.1)]"
                       animate={{ opacity: [0.5, 0.9, 0.5] }}
@@ -159,7 +159,7 @@ export default function RetroComputer() {
 
 
         {/* === KEYBOARD === */}
-        <motion.div
+        <m.div
           className="mx-auto mt-1.5 w-full max-w-[300px] relative"
           style={{ transform: 'translateZ(6px)' }}
           animate={{ y: [0, -1, 0] }}
@@ -181,7 +181,7 @@ export default function RetroComputer() {
               {/* Function key row (F1-F10) */}
               <div className="flex justify-center gap-[3px] mb-1.5">
                 {Array.from({ length: 10 }).map((_, i) => (
-                  <motion.div
+                  <m.div
                     key={i}
                     className="relative rounded-[2px] bg-gradient-to-b from-[#D4C4B2] via-[#C8B8A2] to-[#BEAE98] shadow-[0_1px_2px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.4)]"
                     style={{ width: '18px', height: '7px' }}
@@ -189,7 +189,7 @@ export default function RetroComputer() {
                     transition={{ duration: 0.1 }}
                   >
                     <div className="absolute bottom-[1px] left-[3px] right-[3px] h-[1px] rounded-full bg-black/5" />
-                  </motion.div>
+                  </m.div>
                 ))}
               </div>
 
@@ -202,7 +202,7 @@ export default function RetroComputer() {
                       const isWide = isSpaceRow && col >= 4 && col <= 7
                       const w = isWide ? '44px' : '15px'
                       return (
-                        <motion.div
+                        <m.div
                           key={col}
                           className="relative rounded-[2px] bg-gradient-to-b from-[#E0D4BE] via-[#D4C4B2] to-[#C8B8A2] shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.45)]"
                           style={{ width: w, height: '11px' }}
@@ -229,7 +229,7 @@ export default function RetroComputer() {
                           {row === 2 && col === 11 && (
                             <span className="absolute inset-0 flex items-center justify-center text-[4px] text-[#7A6A5A] font-medium" style={{ fontFamily: 'Arial, sans-serif' }}>Enter</span>
                           )}
-                        </motion.div>
+                        </m.div>
                       )
                     })}
                   </div>
@@ -238,51 +238,51 @@ export default function RetroComputer() {
 
               {/* Bottom row - spacebar + mods */}
               <div className="flex justify-center mt-[3px] gap-[3px]">
-                <motion.div
+                <m.div
                   className="relative rounded-[2px] bg-gradient-to-b from-[#C8B8A2] to-[#BEAE98] shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.3)]"
                   style={{ width: '24px', height: '11px' }}
                   whileHover={{ y: -0.8 }}
                   transition={{ duration: 0.1 }}
                 >
                   <span className="absolute inset-0 flex items-center justify-center text-[5px] text-[#7A6A5A] font-medium" style={{ fontFamily: 'Arial, sans-serif' }}>Ctrl</span>
-                </motion.div>
-                <motion.div
+                </m.div>
+                <m.div
                   className="relative rounded-[2px] bg-gradient-to-b from-[#E0D4BE] via-[#D4C4B2] to-[#C8B8A2] shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.45)]"
                   style={{ width: '24px', height: '11px' }}
                   whileHover={{ y: -0.8 }}
                   transition={{ duration: 0.1 }}
                 >
                   <span className="absolute inset-0 flex items-center justify-center text-[5px] text-[#7A6A5A] font-medium" style={{ fontFamily: 'Arial, sans-serif' }}>Alt</span>
-                </motion.div>
-                <motion.div
+                </m.div>
+                <m.div
                   className="relative rounded-[2px] bg-gradient-to-b from-[#E0D4BE] via-[#D4C4B2] to-[#C8B8A2] shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.45)]"
                   style={{ width: '52px', height: '11px' }}
                   whileHover={{ y: -0.8 }}
                   transition={{ duration: 0.1 }}
                 >
                   <div className="absolute top-[1.5px] left-[2px] right-[2px] h-[4px] rounded-[1px] bg-white/10" />
-                </motion.div>
-                <motion.div
+                </m.div>
+                <m.div
                   className="relative rounded-[2px] bg-gradient-to-b from-[#E0D4BE] via-[#D4C4B2] to-[#C8B8A2] shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.45)]"
                   style={{ width: '24px', height: '11px' }}
                   whileHover={{ y: -0.8 }}
                   transition={{ duration: 0.1 }}
                 >
                   <span className="absolute inset-0 flex items-center justify-center text-[5px] text-[#7A6A5A] font-medium" style={{ fontFamily: 'Arial, sans-serif' }}>Alt</span>
-                </motion.div>
-                <motion.div
+                </m.div>
+                <m.div
                   className="relative rounded-[2px] bg-gradient-to-b from-[#C8B8A2] to-[#BEAE98] shadow-[0_1px_2px_rgba(0,0,0,0.1),inset_0_1px_0_rgba(255,255,255,0.3)]"
                   style={{ width: '24px', height: '11px' }}
                   whileHover={{ y: -0.8 }}
                   transition={{ duration: 0.1 }}
                 >
                   <span className="absolute inset-0 flex items-center justify-center text-[4px] text-[#7A6A5A] font-medium" style={{ fontFamily: 'Arial, sans-serif' }}>Ctrl</span>
-                </motion.div>
+                </m.div>
               </div>
             </div>
           </div>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
 
       <style>{`
         @keyframes vibrate {

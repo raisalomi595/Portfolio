@@ -1,3 +1,4 @@
+import { LazyMotion, domAnimation } from 'framer-motion'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Header'
 import Hero from './components/Hero'
@@ -26,7 +27,7 @@ export default function App() {
   const isProjectPage = location.pathname.startsWith('/work')
 
   return (
-    <>
+    <LazyMotion features={domAnimation}>
       {!isProjectPage && <Header />}
       <main id="main-content">
         <Routes>
@@ -53,6 +54,6 @@ export default function App() {
           />
         </Routes>
       </main>
-    </>
+    </LazyMotion>
   )
 }

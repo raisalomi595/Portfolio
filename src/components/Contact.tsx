@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 import { Send, Check, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
 
 const contactInfo = [
@@ -63,7 +63,7 @@ export default function Contact() {
     <section id="contact" className="relative bg-cream-200 py-24 md:py-32 overflow-hidden scroll-mt-20">
       <div className="absolute inset-0 z-0 pointer-events-none hidden md:block">
         {decorations.map((d, i) => (
-          <motion.span
+          <m.span
             key={i}
             className="absolute"
             style={{ top: d.top, right: d.right, bottom: d.bottom, fontSize: d.size, color: d.color }}
@@ -77,30 +77,30 @@ export default function Contact() {
             }}
           >
             {d.char}
-          </motion.span>
+          </m.span>
         ))}
       </div>
       <div className="mx-auto max-w-8xl px-6 md:px-10 relative z-10">
         <div className="grid gap-16 lg:grid-cols-5">
           {/* LEFT: Info */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: -40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="lg:col-span-2"
           >
-            <motion.p
+            <m.p
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-2"
+              className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-2 font-heading"
             >
               Let's Connect
-            </motion.p>
+            </m.p>
 
-            <motion.h2
+            <m.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -108,9 +108,9 @@ export default function Contact() {
               className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-800 leading-[1.15]"
             >
               I'm currently seeking job opportunities and looking to grow my experience in web development.
-            </motion.h2>
+            </m.h2>
 
-            <motion.p
+            <m.p
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -118,27 +118,27 @@ export default function Contact() {
               className="mt-5 text-base text-muted leading-relaxed"
             >
               Whether you have a project, collaboration opportunity, or simply want to connect, I'd be happy to hear from you.
-            </motion.p>
+            </m.p>
 
             {/* Contact details */}
             <div className="mt-8 space-y-3">
               {contactInfo.map((item, i) => {
                 const Icon = item.icon
                 const content = (
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: i * 0.08 }}
                     className="flex items-center gap-3 text-sm"
                   >
-                    <motion.span
+                    <m.span
                       className="flex h-8 w-8 items-center justify-center rounded-full bg-cream-200 text-terracotta-500"
                       animate={{ y: [0, -3, 0] }}
                       transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
                     >
                       <Icon size={15} />
-                    </motion.span>
+                    </m.span>
                     {item.href ? (
                       <a href={item.href} className="text-muted hover:text-ink-800 transition-colors">
                         {item.value}
@@ -146,14 +146,14 @@ export default function Contact() {
                     ) : (
                       <span className="text-muted">{item.value}</span>
                     )}
-                  </motion.div>
+                  </m.div>
                 )
                 return <div key={item.label}>{content}</div>
               })}
             </div>
 
             {/* Social links */}
-            <motion.div
+            <m.div
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -163,7 +163,7 @@ export default function Contact() {
               {socialLinks.map((link) => {
                 const Icon = link.icon
                 return (
-                  <motion.a
+                  <m.a
                     key={link.label}
                     href={link.href}
                     target="_blank"
@@ -174,20 +174,20 @@ export default function Contact() {
                   >
                     <Icon size={16} />
                     {link.label}
-                    <motion.span
+                    <m.span
                       animate={{ x: [0, 3, 0] }}
                       transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
                     >
                       <ArrowUpRight size={12} />
-                    </motion.span>
-                  </motion.a>
+                    </m.span>
+                  </m.a>
                 )
               })}
-            </motion.div>
-          </motion.div>
+            </m.div>
+          </m.div>
 
           {/* RIGHT: Form */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -195,30 +195,30 @@ export default function Contact() {
             className="lg:col-span-3"
           >
             {succeeded ? (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex items-center gap-4 rounded-2xl bg-cream-200 border border-cream-300 p-8"
                 role="status"
               >
-                <motion.div
+                <m.div
                   className="flex h-12 w-12 items-center justify-center rounded-full bg-terracotta-500/10"
                   animate={{ scale: [1, 1.1, 1] }}
                   transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                 >
-                  <motion.span
+                  <m.span
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
                     transition={{ duration: 0.5 }}
                   >
                     <Check size={24} className="text-terracotta-500" />
-                  </motion.span>
-                </motion.div>
+                  </m.span>
+                </m.div>
                 <div>
                   <p className="text-lg font-semibold text-ink-800">Message sent!</p>
                   <p className="text-sm text-muted">Thanks for reaching out — I'll get back to you soon.</p>
                 </div>
-              </motion.div>
+              </m.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5" aria-label="Contact form">
                 {/* Honeypot to prevent spam */}
@@ -226,7 +226,7 @@ export default function Contact() {
                 <input type="hidden" name="_captcha" value="true" />
 
                 <div className="grid gap-5 sm:grid-cols-2">
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -246,9 +246,9 @@ export default function Contact() {
                       className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all"
                       placeholder="Your name"
                     />
-                  </motion.div>
+                  </m.div>
 
-                  <motion.div
+                  <m.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
@@ -268,10 +268,10 @@ export default function Contact() {
                       className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all"
                       placeholder="you@example.com"
                     />
-                  </motion.div>
+                  </m.div>
                 </div>
 
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -291,20 +291,20 @@ export default function Contact() {
                     className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all resize-y"
                     placeholder="Tell me about your project or idea..."
                   />
-                </motion.div>
+                </m.div>
 
                 {error && (
                   <p className="text-sm text-red-500">{error}</p>
                 )}
 
-                <motion.div
+                <m.div
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: 0.25 }}
                   className="flex items-center gap-3"
                 >
-                  <motion.button
+                  <m.button
                     type="submit"
                     disabled={submitting}
                     whileHover={{ scale: 1.04 }}
@@ -319,20 +319,20 @@ export default function Contact() {
                     ) : (
                       <>
                         Send Message
-                        <motion.span
+                        <m.span
                           animate={{ x: [0, 3, 0] }}
                           transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
                         >
                           <Send size={15} />
-                        </motion.span>
+                        </m.span>
                       </>
                     )}
-                  </motion.button>
+                  </m.button>
                   <span className="text-xs text-muted">I'll respond within 24h</span>
-                </motion.div>
+                </m.div>
               </form>
             )}
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>

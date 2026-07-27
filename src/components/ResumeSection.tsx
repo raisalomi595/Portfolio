@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Download, Eye, X } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { m } from 'framer-motion'
 
 const RESUME_FILE = '/SalomiRai_CV.pdf'
 
@@ -12,14 +12,14 @@ export default function ResumeSection() {
       <div className="mx-auto max-w-8xl px-6 md:px-10 relative z-10">
         <div className="grid gap-12 md:grid-cols-5">
           {/* Left: Title and intro */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
             className="md:col-span-2"
           >
-            <p className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-4">
+            <p className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-4 font-heading">
               Resumé
             </p>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-ink-800 leading-[1.1]">
@@ -28,10 +28,10 @@ export default function ResumeSection() {
             <p className="mt-4 text-base text-muted leading-relaxed max-w-sm">
               My education, experience, and what I'm looking for in my next role.
             </p>
-          </motion.div>
+          </m.div>
 
           {/* Right: Details */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -40,7 +40,7 @@ export default function ResumeSection() {
           >
             {/* Education */}
             <div>
-              <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-3">
+              <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-3 font-heading">
                 Education
               </p>
               <p className="text-lg font-semibold text-ink-800">
@@ -53,7 +53,7 @@ export default function ResumeSection() {
 
             {/* Experience */}
             <div className="pt-6 border-t border-cream-300">
-              <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-3">
+              <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-3 font-heading">
                 Experience
               </p>
               <div className="flex items-center gap-8">
@@ -70,7 +70,7 @@ export default function ResumeSection() {
 
             {/* Seeking */}
             <div className="pt-6 border-t border-cream-300">
-              <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-3">
+              <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-3 font-heading">
                 Seeking
               </p>
               <ul className="space-y-2">
@@ -106,12 +106,12 @@ export default function ResumeSection() {
                 View CV
               </button>
             </div>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Inline PDF viewer */}
         {showViewer && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="mt-10 rounded-sm border border-cream-300 bg-white overflow-hidden"
@@ -131,7 +131,7 @@ export default function ResumeSection() {
               title="Resume PDF"
               className="w-full h-[80vh] max-h-[80vh]"
             />
-          </motion.div>
+          </m.div>
         )}
       </div>
     </section>
