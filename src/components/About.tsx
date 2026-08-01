@@ -300,20 +300,28 @@ export default function About() {
           className="mt-16 pt-10 border-t border-cream-300"
         >
           <p className="text-xs font-medium uppercase tracking-widest text-terracotta-500 mb-5 font-heading">
-            Currently
+            What I do
           </p>
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="rounded-sm bg-cream-100 px-5 py-4">
-              <span className="text-ink-800 font-medium text-sm">Building</span>
-              <p className="text-sm text-muted mt-1">SecondHome & PeerLearn</p>
+              <span className="text-ink-800 font-medium text-sm">💻 Develop</span>
+              <p className="text-sm text-muted mt-1">Responsive Web Applications &
+Modern UI/UX Interfaces</p>
             </div>
             <div className="rounded-sm bg-cream-100 px-5 py-4">
-              <span className="text-ink-800 font-medium text-sm">Learning</span>
-              <p className="text-sm text-muted mt-1">Java & MySQL</p>
+              <span className="text-ink-800 font-medium text-sm">⚙️ Tech Stack</span>
+              <p className="text-sm text-muted mt-1">React
+Java,
+MySQL,
+Node.js &
+Next.js
+</p>
             </div>
             <div className="rounded-sm bg-cream-100 px-5 py-4">
-              <span className="text-ink-800 font-medium text-sm">Reading</span>
-              <p className="text-sm text-muted mt-1">Clean Code</p>
+              <span className="text-ink-800 font-medium text-sm">📈 Currently Improving</span>
+              <p className="text-sm text-muted mt-1">Backend Development,
+Database Design &
+Problem Solving</p>
             </div>
           </div>
         </m.div>
