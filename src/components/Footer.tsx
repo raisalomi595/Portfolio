@@ -1,4 +1,5 @@
-import { Mail } from 'lucide-react'
+import { m } from 'framer-motion'
+import { ArrowUp, Mail, MapPin } from 'lucide-react'
 import { useScrollTo } from '../hooks/useScrollTo'
 
 const navLinks = [
@@ -9,37 +10,132 @@ const navLinks = [
   { label: 'Contact', target: 'contact' },
 ]
 
+const contactDetails = [
+  { icon: Mail, label: 'Email', value: 'raisalomi595@gmail.com', href: 'mailto:raisalomi595@gmail.com' },
+  { icon: MapPin, label: 'Location', value: 'Dharan, Nepal' },
+]
+
 export default function Footer() {
   const year = new Date().getFullYear()
   const scrollTo = useScrollTo()
 
   return (
-    <footer className="border-t border-cream-300 bg-cream-100 py-10">
-      <div className="mx-auto max-w-8xl px-6 md:px-10">
-        <div className="flex flex-col md:flex-row items-start justify-between gap-8">
-          {/* Left: Navigation */}
-          <nav aria-label="Footer navigation">
-            <p className="text-sm font-bold text-ink-800 mb-3">Navigation</p>
-            <ul className="flex flex-col gap-2">
-              {navLinks.map((link) => {
+    <footer className="relative border-t border-cream-300 bg-cream-100 overflow-hidden">
+      {/* Decorative top divider */}
+      <div
+        className="h-1.5 w-full bg-[repeating-linear-gradient(90deg,var(--color-terracotta-500)_0px,var(--color-terracotta-500)_14px,var(--color-cream-200)_14px,var(--color-cream-200)_28px)]"
+        aria-hidden="true"
+      />
+
+      {/* Subtle corner decoration */}
+      <m.span
+        initial={{ opacity: 0, scale: 0 }}
+        whileInView={{ opacity: 0.5, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="absolute top-8 right-6 md:right-10 text-terracotta-500 pointer-events-none select-none"
+        aria-hidden="true"
+      >
+        ✦
+      </m.span>
+
+      <div className="relative mx-auto max-w-8xl px-6 md:px-10 py-14">
+        <div className="grid gap-10 md:grid-cols-3 items-start">
+          {/* Left: Brand mark */}
+          <div>
+            <m.button
+              onClick={() => scrollTo('hero')}
+              whileHover={{ x: 3 }}
+              transition={{ type: 'spring', stiffness: 250 }}
+              className="group flex items-center gap-3 cursor-pointer"
+              aria-label="Back to top"
+            >
+              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-terracotta-500/40 bg-cream-200 text-lg text-terracotta-500 transition-colors group-hover:bg-terracotta-500 group-hover:text-white">
+                SR
+              </span>
+              <span className="text-left">
+                <span className="block font-heading text-xl font-bold tracking-tight text-ink-800">
+                  Salomi Rai
+                </span>
+                <span className="block text-xs font-medium uppercase tracking-widest text-muted">
+                  Web Developer
+                </span>
+              </span>
+            </m.button>
+
+            <m.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="mt-5 max-w-xs text-sm text-muted leading-relaxed"
+            >
+              Design, build &amp; serve. Crafting accessible, performant web
+              experiences — one commit at a time.
+            </m.p>
+
+            <m.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              className="mt-6 space-y-2"
+            >
+              {contactDetails.map((item) => {
+                const Icon = item.icon
                 return (
-                  <li key={link.target}>
+                  <a
+                    key={item.label}
+                    href={item.href}
+                    className="group inline-flex items-center gap-2.5 text-sm text-muted transition-colors hover:text-ink-800"
+                  >
+                    <span className="text-terracotta-500">
+                      <Icon size={14} />
+                    </span>
+                    {item.value}
+                  </a>
+                )
+              })}
+            </m.div>
+          </div>
+
+          {/* Center: Navigation */}
+          <nav aria-label="Footer navigation" className="md:justify-self-center">
+            <p className="text-sm font-bold text-ink-800 mb-4 font-heading tracking-wide">
+              Explore
+            </p>
+            <ul className="grid grid-cols-2 gap-x-10 gap-y-2.5 sm:grid-cols-1">
+              {navLinks.map((link, i) => {
+                return (
+                  <m.li
+                    key={link.target}
+                    initial={{ opacity: 0, x: -12 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.35, delay: 0.05 * i }}
+                  >
                     <button
                       onClick={() => scrollTo(link.target)}
-                      className="text-sm transition-all text-muted hover:text-terracotta-500 cursor-pointer pl-3 -ml-3 border-l-2 border-transparent hover:border-terracotta-500"
+                      className="group inline-flex items-center gap-2 text-sm text-muted transition-colors hover:text-terracotta-500 cursor-pointer"
                     >
+                      <span className="inline-block h-px w-0 bg-terracotta-500 transition-all duration-300 group-hover:w-4" />
                       {link.label}
                     </button>
-                  </li>
+                  </m.li>
                 )
               })}
             </ul>
           </nav>
 
-          {/* Right: Copyright + Socials */}
-          <div className="flex flex-col items-start md:items-end gap-4">
-            <p className="text-sm text-muted">&copy; {year} Salomi Rai. All rights reserved.</p>
-            <div className="flex items-center gap-4 text-muted">
+          {/* Right: Socials + back to top */}
+          <div className="flex flex-col items-start md:items-end gap-6">
+            <m.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="flex items-center gap-4 text-muted"
+            >
               <a
                 href="https://github.com/raisalomi595"
                 target="_blank"
@@ -65,8 +161,34 @@ export default function Footer() {
               >
                 <Mail size={18} />
               </a>
-            </div>
+            </m.div>
+
+            <m.button
+              onClick={() => scrollTo('hero')}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+              whileHover={{ y: -2 }}
+              whileTap={{ y: 0 }}
+              className="inline-flex items-center gap-2 rounded-full border border-cream-300 bg-cream-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-ink-800 transition-colors hover:border-terracotta-500 hover:text-terracotta-500 cursor-pointer"
+            >
+              Back to top
+              <ArrowUp size={14} />
+            </m.button>
           </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-cream-300 pt-6 sm:flex-row">
+          <p className="text-xs text-muted">
+            &copy; {year} Salomi Rai. All rights reserved.
+          </p>
+          <p className="flex items-center gap-1.5 text-xs text-muted">
+            <span aria-hidden="true">✦</span>
+            Built with React, TypeScript &amp; Tailwind
+            <span aria-hidden="true">✦</span>
+          </p>
         </div>
       </div>
     </footer>
