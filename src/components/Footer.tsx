@@ -1,6 +1,7 @@
 import { m } from 'framer-motion'
 import { ArrowUp, Mail, MapPin } from 'lucide-react'
 import { useScrollTo } from '../hooks/useScrollTo'
+import OnePieceCharacter from './OnePieceCharacter'
 
 const navLinks = [
   { label: 'Home', target: 'hero' },
@@ -176,6 +177,25 @@ export default function Footer() {
               Back to top
               <ArrowUp size={14} />
             </m.button>
+          </div>
+        </div>
+
+        {/* One Piece ship marquee */}
+        <div className="mt-14">
+          <OnePieceCharacter />
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-terracotta-500/30 bg-cream-200 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-ink-800">
+              <span className="text-terracotta-500">✦</span> Straw Hat Fleet
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-cream-300 bg-cream-100 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-muted">
+              Going Merry
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-cream-300 bg-cream-100 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-muted">
+              Thousand Sunny
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-cream-300 bg-cream-100 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-muted">
+              Sailing the Grand Line
+            </span>
           </div>
         </div>
 

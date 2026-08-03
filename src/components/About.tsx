@@ -304,12 +304,12 @@ export default function About() {
           </p>
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="rounded-sm bg-cream-100 px-5 py-4">
-              <span className="text-ink-800 font-medium text-sm">💻 Develop</span>
+              <span className="text-ink-800 font-medium text-sm"> Develop</span>
               <p className="text-sm text-muted mt-1">Responsive Web Applications &
 Modern UI/UX Interfaces</p>
             </div>
             <div className="rounded-sm bg-cream-100 px-5 py-4">
-              <span className="text-ink-800 font-medium text-sm">⚙️ Tech Stack</span>
+              <span className="text-ink-800 font-medium text-sm">Tech Stack</span>
               <p className="text-sm text-muted mt-1">React
 Java,
 MySQL,
@@ -318,7 +318,7 @@ Next.js
 </p>
             </div>
             <div className="rounded-sm bg-cream-100 px-5 py-4">
-              <span className="text-ink-800 font-medium text-sm">📈 Currently Improving</span>
+              <span className="text-ink-800 font-medium text-sm"> Currently Improving</span>
               <p className="text-sm text-muted mt-1">Backend Development,
 Database Design &
 Problem Solving</p>
