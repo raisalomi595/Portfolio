@@ -40,9 +40,9 @@ export default function PlaidBackground() {
 
       const cellSize = Math.max(w, h) * 0.035 * breathe
 
-      const light = '#F5E3D6'
-      const mid = '#EACBBC'
-      const dark = '#DEB39F'
+      const light = '#F5F0EB'
+      const mid = '#EDE6DC'
+      const dark = '#E0D5C8'
 
       ctx.fillStyle = light
       ctx.fillRect(0, 0, w, h)
@@ -79,7 +79,7 @@ export default function PlaidBackground() {
             const seed = (x * 12.9898 + y * 78.233 + time * 50) % (2 * Math.PI)
             const noise = (Math.sin(seed) + 1) * 0.5
             const alpha = noise * 0.025
-            ctx.fillStyle = `rgba(51, 25, 23, ${alpha.toFixed(4)})`
+            ctx.fillStyle = `rgba(139, 129, 116, ${alpha.toFixed(4)})`
             ctx.fillRect(x, y, step, step)
           }
         }
