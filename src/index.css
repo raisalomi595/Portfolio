@@ -1,8 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --font-heading: 'Special Elite', serif;
-  --font-body: 'Inconsolata', monospace;
+  --font-heading: 'Playfair Display', 'Cormorant Garamond', serif;
+  --font-body: 'Inter', 'Nunito Sans', sans-serif;
+  --font-cormorant: 'Cormorant Garamond', 'Special Elite', serif;
+  --font-nunito: 'Nunito Sans', 'Inconsolata', sans-serif;
+  --font-canora: 'Fraunces', 'Playfair Display', serif;
+  --font-display: 'Anton', 'Archivo Black', sans-serif;
+  --font-script: 'Great Vibes', 'Dancing Script', cursive;
+  --font-hidden: 'Special Elite', serif;
+  --font-noe: 'Playfair Display', 'Cormorant Garamond', serif;
+  --color-honey-blush: #EACBBC;
+  --color-honey-cream: #F5E3D6;
+  --color-honey-espresso: #331917;
+  --color-honey-accent: #C97B63;
+  --color-honey-ink: #1E0F0D;
   --color-cream-50: #FAF7F2;
   --color-cream-100: #F5F0EB;
   --color-cream-200: #EDE6DC;

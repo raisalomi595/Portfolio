@@ -28,16 +28,16 @@ export default function Header() {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-cream-100/80 border-b border-cream-300">
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-honey-blush/80 border-b border-honey-espresso/10">
       <nav
         className="flex items-center justify-between py-4 px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
         <button
           onClick={() => scrollTo('hero')}
-          className="text-3xl font-bold tracking-tight text-ink-800 cursor-pointer"
+          className="font-display text-3xl uppercase tracking-tight text-honey-espresso cursor-pointer"
         >
-          Salomi<span className="text-terracotta-500">Rai</span>
+          Salomi<span className="text-honey-accent">Rai</span>
         </button>
 
         <ul className="hidden md:flex items-center gap-8" role="list">
@@ -49,8 +49,8 @@ export default function Header() {
                   onClick={() => handleNav(link.target)}
                   className={`text-sm font-medium transition-colors cursor-pointer ${
                     isActive
-                      ? 'text-terracotta-500'
-                      : 'text-muted hover:text-terracotta-500'
+                      ? 'text-honey-accent'
+                      : 'text-honey-espresso/60 hover:text-honey-accent'
                   }`}
                 >
                   {link.label}
@@ -61,7 +61,7 @@ export default function Header() {
         </ul>
 
         <button
-          className="md:hidden p-2 text-ink-800 cursor-pointer"
+          className="md:hidden p-2 text-honey-espresso cursor-pointer"
           onClick={() => setOpen(!open)}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
@@ -72,7 +72,7 @@ export default function Header() {
 
       {open && (
         <div
-          className="md:hidden border-t border-cream-300 bg-cream-100"
+          className="md:hidden border-t border-honey-espresso/10 bg-honey-blush"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
