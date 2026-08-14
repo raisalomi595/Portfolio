@@ -52,7 +52,7 @@ export default function Hero() {
           className="font-noe flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.35em] text-honey-espresso/70 sm:text-[11px]"
         >
           <span className="inline-block size-1.5 rounded-full bg-honey-accent" />
-          Salomi Rai — Web Developer &amp; UI/UX Designer
+          Designer &amp; Developer
         </m.p>
 
         {/* Giant wordmark */}
