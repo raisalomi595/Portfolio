@@ -51,29 +51,9 @@ export default function Footer() {
               className="group flex items-center gap-3 cursor-pointer"
               aria-label="Back to top"
             >
-              <span className="flex h-11 w-11 items-center justify-center rounded-full border border-terracotta-500/40 bg-cream-200 text-lg text-terracotta-500 transition-colors group-hover:bg-terracotta-500 group-hover:text-white">
-                SR
-              </span>
-              <span className="text-left">
-                <span className="block font-heading text-xl font-bold tracking-tight text-ink-800">
-                  Salomi Rai
-                </span>
-                <span className="block text-xs font-medium uppercase tracking-widest text-muted">
-                  Web Developer
-                </span>
-              </span>
+             
             </m.button>
 
-            <m.p
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="mt-5 max-w-xs text-sm text-muted leading-relaxed"
-            >
-              Design, build &amp; serve. Crafting accessible, performant web
-              experiences — one commit at a time.
-            </m.p>
 
             <m.div
               initial={{ opacity: 0, y: 10 }}
