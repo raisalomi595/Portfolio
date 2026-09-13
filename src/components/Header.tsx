@@ -37,7 +37,6 @@ export default function Header() {
           onClick={() => scrollTo('hero')}
           className="font-display text-3xl uppercase tracking-tight text-honey-espresso cursor-pointer"
         >
-          Salomi<span className="text-honey-accent">Rai</span>
         </button>
 
         <ul className="hidden md:flex items-center gap-8" role="list">
