@@ -165,7 +165,7 @@ export default function Footer() {
           <OnePieceCharacter />
           <div className="mt-4 flex flex-wrap items-center justify-center gap-2">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-terracotta-500/30 bg-cream-200 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-ink-800">
-              <span className="text-terracotta-500">✦</span> Straw Hat Fleet
+              <span className="text-terracotta-500"></span> Straw Hat Fleet
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-cream-300 bg-cream-100 px-3 py-1 text-[11px] font-medium uppercase tracking-widest text-muted">
               Going Merry
@@ -184,11 +184,7 @@ export default function Footer() {
           <p className="text-xs text-muted">
             &copy; {year} Salomi Rai. All rights reserved.
           </p>
-          <p className="flex items-center gap-1.5 text-xs text-muted">
-            <span aria-hidden="true">✦</span>
-            Built with React, TypeScript &amp; Tailwind
-            <span aria-hidden="true">✦</span>
-          </p>
+
         </div>
       </div>
     </footer>
