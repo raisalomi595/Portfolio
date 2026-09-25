@@ -27,6 +27,13 @@
   --color-ink-900: #1E1C18;
   --color-muted: #8B8174;
   --container-8xl: 90rem;
+  --animate-rotate-slow: rotate-slow 18s linear infinite;
+
+  @keyframes rotate-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
 }
 
 @layer base {
