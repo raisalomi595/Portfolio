@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { m } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { useScrollTo } from '../hooks/useScrollTo'
 import useActiveSection from '../hooks/useActiveSection'
@@ -40,21 +41,26 @@ export default function Header() {
         </button>
 
         <ul className="hidden md:flex items-center gap-8" role="list">
-          {links.map((link) => {
+          {links.map((link, i) => {
             const isActive = activeSection !== 'hero' && activeSection === link.target
             return (
-              <li key={link.target}>
+              <m.li
+                key={link.target}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.1 + i * 0.1, ease: 'easeOut' }}
+              >
                 <button
                   onClick={() => handleNav(link.target)}
-                  className={`text-sm font-medium transition-colors cursor-pointer ${
+                  className={`relative text-sm font-medium cursor-pointer transition-colors after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:bg-honey-accent after:transition-transform after:duration-300 hover:after:scale-x-100 ${
                     isActive
-                      ? 'text-honey-accent'
-                      : 'text-honey-espresso/60 hover:text-honey-accent'
+                      ? 'text-honey-accent after:scale-x-100'
+                      : 'text-honey-espresso/60 hover:text-honey-accent after:scale-x-0'
                   }`}
                 >
                   {link.label}
                 </button>
-              </li>
+              </m.li>
             )
           })}
         </ul>

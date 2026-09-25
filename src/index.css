@@ -58,6 +58,14 @@ html {
   }
 }
 
+/* Minimal custom cursor — fine pointers only, enabled via JS */
+@media (pointer: fine) {
+  .has-custom-cursor,
+  .has-custom-cursor * {
+    cursor: none !important;
+  }
+}
+
 .skip-link {
   position: absolute;
   top: -100%;

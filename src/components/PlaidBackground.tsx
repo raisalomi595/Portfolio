@@ -1,7 +1,15 @@
 import { useEffect, useRef } from 'react'
-import { m, useScroll, useTransform } from 'framer-motion'
+import { m, useScroll, useTransform, type MotionValue } from 'framer-motion'
 
-export default function PlaidBackground() {
+export default function PlaidBackground({
+  mx,
+  my,
+  fade,
+}: {
+  mx: MotionValue<number>
+  my: MotionValue<number>
+  fade: MotionValue<number>
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const { scrollY } = useScroll()
   const bgY = useTransform(scrollY, [0, 600], [0, 120])
@@ -16,6 +24,8 @@ export default function PlaidBackground() {
     let animId: number
     let time = 0
     let prevTime = performance.now()
+    let visible = true
+    const smooth = { x: 0, y: 0 }
 
     const resize = () => {
       canvas.width = window.innerWidth
@@ -34,8 +44,12 @@ export default function PlaidBackground() {
 
       ctx.clearRect(0, 0, w, h)
 
-      const driftX = Math.sin(time * 0.3) * 3
-      const driftY = Math.cos(time * 0.25) * 3
+      // Cursor drift — lerped inside rAF, no React re-renders
+      smooth.x += (mx.get() * 14 - smooth.x) * 0.06
+      smooth.y += (my.get() * 8 - smooth.y) * 0.06
+
+      const driftX = Math.sin(time * 0.3) * 3 + smooth.x
+      const driftY = Math.cos(time * 0.25) * 3 + smooth.y
       const breathe = 1 + Math.sin(time * 0.2) * 0.004
 
       const cellSize = Math.max(w, h) * 0.035 * breathe
@@ -84,23 +98,40 @@ export default function PlaidBackground() {
           }
         }
       }
-
-      animId = requestAnimationFrame(draw)
     }
 
-    animId = requestAnimationFrame(draw)
+    const loop = (now: number) => {
+      if (!visible) return
+      draw(now)
+      animId = requestAnimationFrame(loop)
+    }
+
+    const io = new IntersectionObserver((entries) => {
+      const v = entries[0].isIntersecting
+      if (v && !visible) {
+        visible = true
+        prevTime = performance.now()
+        animId = requestAnimationFrame(loop)
+      } else if (!v) {
+        visible = false
+        cancelAnimationFrame(animId)
+      }
+    })
+    io.observe(canvas)
+    animId = requestAnimationFrame(loop)
 
     return () => {
+      io.disconnect()
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
     }
-  }, [])
+  }, [mx, my])
 
   return (
     <m.canvas
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none"
-      style={{ y: bgY }}
+      style={{ y: bgY, opacity: fade }}
       aria-hidden="true"
     />
   )

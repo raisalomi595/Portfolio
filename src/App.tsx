@@ -1,6 +1,7 @@
 import { LazyMotion, domAnimation } from 'framer-motion'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Header'
+import Cursor from './components/Cursor'
 import Hero from './components/Hero'
 import ProjectsGrid from './components/ProjectsGrid'
 import About from './components/About'
@@ -28,6 +29,7 @@ export default function App() {
 
   return (
     <LazyMotion features={domAnimation}>
+      <Cursor />
       {!isProjectPage && <Header />}
       <main id="main-content">
         <Routes>
