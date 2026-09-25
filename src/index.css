@@ -26,6 +26,7 @@
   --color-ink-800: #2D2A24;
   --color-ink-900: #1E1C18;
   --color-muted: #8B8174;
+  --container-8xl: 90rem;
 }
 
 @layer base {
