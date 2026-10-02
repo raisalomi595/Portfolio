@@ -3,44 +3,44 @@ import { m } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { useScrollTo } from '../hooks/useScrollTo'
 import useActiveSection from '../hooks/useActiveSection'
-import { useLocation } from 'react-router-dom'
 
 const links = [
-  { label: 'Projects', target: 'projects' },
-  { label: 'About', target: 'about' },
-  { label: 'Resume', target: 'resume' },
-  { label: 'Contact', target: 'contact' },
+  { folio: '01', label: 'Projects', target: 'projects' },
+  { folio: '02', label: 'About', target: 'about' },
+  { folio: '03', label: 'Resume', target: 'resume' },
+  { folio: '04', label: 'Contact', target: 'contact' },
 ]
 
 export default function Header() {
   const [open, setOpen] = useState(false)
   const scrollTo = useScrollTo()
   const activeSection = useActiveSection()
-  const location = useLocation()
-  const isResumePage = location.pathname === '/resume'
 
   const handleNav = (target: string) => {
-    if (isResumePage) {
-      window.location.assign('/#' + target)
-      return
-    }
     scrollTo(target)
     setOpen(false)
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-honey-blush/80 border-b border-honey-espresso/10">
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-paper/85 border-b border-rule">
       <nav
-        className="flex items-center justify-between py-4 px-4 sm:px-6 lg:px-8"
+        className="flex items-center justify-between py-3 px-4 sm:px-6 lg:px-8"
         aria-label="Main navigation"
       >
         <button
           onClick={() => scrollTo('hero')}
-          className="font-display text-3xl uppercase tracking-tight text-honey-espresso cursor-pointer"
+          className="group flex items-center gap-3 cursor-pointer"
+          aria-label="Salomi Rai — back to top"
         >
+          <span className="grid h-8 w-8 shrink-0 place-items-center border border-ink font-display text-[13px] font-semibold leading-none text-ink transition-colors duration-200 group-hover:bg-ink group-hover:text-paper">
+            SR
+          </span>
+          <span className="hidden font-mono text-[11px] uppercase tracking-[0.22em] text-ink-soft sm:block">
+            Salomi Rai <span className="text-muted">— Web Developer</span>
+          </span>
         </button>
 
-        <ul className="hidden md:flex items-center gap-8" role="list">
+        <ul className="hidden md:flex items-center gap-7" role="list">
           {links.map((link, i) => {
             const isActive = activeSection !== 'hero' && activeSection === link.target
             return (
@@ -52,12 +52,18 @@ export default function Header() {
               >
                 <button
                   onClick={() => handleNav(link.target)}
-                  className={`relative text-sm font-medium cursor-pointer transition-colors after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:bg-honey-accent after:transition-transform after:duration-300 hover:after:scale-x-100 ${
+                  className={`group relative flex items-baseline gap-1.5 pb-1 font-mono text-xs uppercase tracking-[0.16em] cursor-pointer transition-colors after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:bg-terracotta after:transition-transform after:duration-300 ${
                     isActive
-                      ? 'text-honey-accent after:scale-x-100'
-                      : 'text-honey-espresso/60 hover:text-honey-accent after:scale-x-0'
+                      ? 'text-ink after:scale-x-100'
+                      : 'text-ink-soft after:scale-x-0 hover:text-ink hover:after:scale-x-100'
                   }`}
                 >
+                  <span
+                    className={`text-[10px] ${isActive ? 'text-terracotta-deep' : 'text-muted'}`}
+                    aria-hidden="true"
+                  >
+                    {link.folio}
+                  </span>
                   {link.label}
                 </button>
               </m.li>
@@ -66,35 +72,36 @@ export default function Header() {
         </ul>
 
         <button
-          className="md:hidden p-2 text-honey-espresso cursor-pointer"
+          className="md:hidden p-2 text-ink cursor-pointer"
           onClick={() => setOpen(!open)}
           aria-label={open ? 'Close menu' : 'Open menu'}
           aria-expanded={open}
         >
-          {open ? <X size={24} /> : <Menu size={24} />}
+          {open ? <X size={22} /> : <Menu size={22} />}
         </button>
       </nav>
 
       {open && (
         <div
-          className="md:hidden border-t border-honey-espresso/10 bg-honey-blush"
+          className="md:hidden border-t border-rule bg-paper"
           role="dialog"
           aria-modal="true"
           aria-label="Mobile navigation"
         >
-          <ul className="flex flex-col px-6 py-4 gap-4" role="list">
+          <ul className="flex flex-col px-6 py-3 gap-1" role="list">
             {links.map((link) => {
               const isActive = activeSection !== 'hero' && activeSection === link.target
               return (
                 <li key={link.target}>
                   <button
                     onClick={() => handleNav(link.target)}
-                    className={`w-full text-left text-sm font-medium py-2 cursor-pointer ${
-                      isActive
-                        ? 'text-terracotta-500'
-                        : 'text-muted hover:text-terracotta-500'
+                    className={`flex w-full items-baseline gap-3 py-2.5 border-b border-rule/60 font-mono text-sm uppercase tracking-[0.16em] cursor-pointer ${
+                      isActive ? 'text-terracotta-deep' : 'text-ink-soft hover:text-ink'
                     }`}
                   >
+                    <span className="text-[10px] text-muted" aria-hidden="true">
+                      {link.folio}
+                    </span>
                     {link.label}
                   </button>
                 </li>

@@ -120,40 +120,31 @@ function SectionCanvas() {
   )
 }
 
-/* Animated weave + grain over the photo (existing) */
+/* Static grain/weave plate over the photo — drawn once (was a 60fps loop with
+   full-frame getImageData; paused for nothing. Print metaphor = static ink.) */
 function CanvasOverlay() {
   const ref = useRef<HTMLCanvasElement>(null)
-  const hoverRef = useRef(0)
 
   useEffect(() => {
     const canvas = ref.current
     if (!canvas) return
-    const ctx = canvas.getContext('2d')!
-    let animId: number
-    let time = 0
-
-    const resize = () => {
-      const parent = canvas.parentElement!
-      canvas.width = parent.clientWidth
-      canvas.height = parent.clientHeight
-    }
-    resize()
-    window.addEventListener('resize', resize)
-
-    const onMouseEnter = () => { hoverRef.current = 1 }
-    const onMouseLeave = () => { hoverRef.current = 0 }
-    canvas.addEventListener('mouseenter', onMouseEnter)
-    canvas.addEventListener('mouseleave', onMouseLeave)
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
 
     const draw = () => {
-      time += 0.016
-      const w = canvas.width
-      const h = canvas.height
-      const hover = hoverRef.current
+      const parent = canvas.parentElement
+      if (!parent) return
+      const w = parent.clientWidth
+      const h = parent.clientHeight
+      if (w === 0 || h === 0) return
+      const dpr = Math.min(window.devicePixelRatio || 1, 2)
+      canvas.width = Math.round(w * dpr)
+      canvas.height = Math.round(h * dpr)
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
       ctx.clearRect(0, 0, w, h)
 
-      // Thick canvas weave texture
+      // Canvas weave texture
       const step = 10
       ctx.strokeStyle = 'rgba(139, 129, 116, 0.25)'
       ctx.lineWidth = 1.2
@@ -180,8 +171,9 @@ function CanvasOverlay() {
         ctx.stroke()
       }
 
-      // Canvas grain dots
-      for (let i = 0; i < 200; i++) {
+      // Grain dots
+      const grains = Math.floor((w * h) / 900)
+      for (let i = 0; i < grains; i++) {
         const x = Math.random() * w
         const y = Math.random() * h
         const r = 0.5 + Math.random() * 1.5
@@ -191,8 +183,9 @@ function CanvasOverlay() {
         ctx.fill()
       }
 
-      // Paint daub strokes
-      for (let i = 0; i < 40; i++) {
+      // Paint daubs
+      const daubs = Math.floor((w * h) / 8000)
+      for (let i = 0; i < daubs; i++) {
         const x = Math.random() * w
         const y = Math.random() * h
         const r = 3 + Math.random() * 15
@@ -203,48 +196,23 @@ function CanvasOverlay() {
         ctx.fill()
       }
 
-      // Subtle vignette
+      // Vignette
       const grad = ctx.createRadialGradient(w / 2, h / 2, w * 0.2, w / 2, h / 2, w * 0.7)
       grad.addColorStop(0, 'rgba(0,0,0,0)')
       grad.addColorStop(1, 'rgba(0,0,0,0.12)')
       ctx.fillStyle = grad
       ctx.fillRect(0, 0, w, h)
-
-      // Animated film grain
-      const grain = ctx.createImageData(w, h)
-      for (let i = 0; i < grain.data.length; i += 4) {
-        const noise = (Math.random() - 0.5) * 20
-        grain.data[i] = 128 + noise
-        grain.data[i + 1] = 128 + noise
-        grain.data[i + 2] = 128 + noise
-        grain.data[i + 3] = 10
-      }
-      ctx.putImageData(grain, 0, 0)
-
-      // Warp shift
-      if (hover < 1) {
-        const warp = ctx.getImageData(0, 0, w, h)
-        const shift = Math.sin(time * 0.8) * 1.5
-        ctx.putImageData(warp, shift, 0)
-      }
-
-      canvas.style.opacity = String(Math.max(0.85, 1 - hover * 0.7))
-      animId = requestAnimationFrame(draw)
     }
 
-    animId = requestAnimationFrame(draw)
-    return () => {
-      cancelAnimationFrame(animId)
-      window.removeEventListener('resize', resize)
-      canvas.removeEventListener('mouseenter', onMouseEnter)
-      canvas.removeEventListener('mouseleave', onMouseLeave)
-    }
+    draw()
+    window.addEventListener('resize', draw)
+    return () => window.removeEventListener('resize', draw)
   }, [])
 
   return (
     <canvas
       ref={ref}
-      className="absolute inset-0 w-full h-full pointer-events-auto mix-blend-multiply"
+      className="absolute inset-0 w-full h-full pointer-events-none mix-blend-multiply"
       aria-hidden="true"
     />
   )
@@ -291,12 +259,12 @@ export default function About() {
   }
 
   return (
-    <section id="about" className="relative overflow-hidden bg-cream-50 py-24 md:py-32 scroll-mt-20">
+    <section id="about" className="relative overflow-hidden bg-paper py-24 md:py-32 scroll-mt-20">
       <SectionCanvas />
 
       <div className="relative z-10 mx-auto max-w-8xl px-6 md:px-10">
         <div className="grid gap-12 md:grid-cols-12">
-          {/* Left: Photo */}
+          {/* Left: Photo plate */}
           <m.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -304,47 +272,39 @@ export default function About() {
             transition={{ duration: 0.6 }}
             className="md:col-span-5"
           >
-            <m.div
-              animate={reduce ? undefined : { y: [0, -6, 0] }}
-              transition={{ repeat: Infinity, duration: 4.5, ease: 'easeInOut' }}
+            <div
+              className="[perspective:1200px]"
+              onMouseMove={onMove}
+              onMouseLeave={onLeave}
             >
-              <div
-                className="[perspective:1200px]"
-                onMouseMove={onMove}
-                onMouseLeave={onLeave}
+              <m.div
+                style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
+                className="relative"
               >
-                <m.div
-                  style={{ rotateX, rotateY, transformStyle: 'preserve-3d' }}
-                  className="relative"
-                >
-                  {/* Canvas background */}
-                  <div className="absolute -inset-4 rounded-sm bg-[#E8DEC9] shadow-inner overflow-hidden">
-                    <div className="w-full h-full opacity-30" style={{
-                      backgroundImage: `
-                        repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(139,129,116,0.15) 8px, rgba(139,129,116,0.15) 9px),
-                        repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(139,129,116,0.15) 8px, rgba(139,129,116,0.15) 9px)
-                      `
-                    }} />
-                  </div>
-                  {/* Image container */}
-                  <div className="relative aspect-[3/4] w-full overflow-hidden rounded-sm bg-cream-200 shadow-lg">
-                    <img
-                      src="/About.jpeg"
-                      alt="Salomi Rai"
-                      className="h-full w-full object-cover"
-                    />
-                    <CanvasOverlay />
-                  </div>
-                  {/* Canvas frame border accents */}
-                  <div className="absolute -inset-4 rounded-sm border-2 border-[#C9B896] pointer-events-none" />
-                  <div className="absolute -inset-4 rounded-sm border border-white/20 pointer-events-none" />
-                  {/* Editorial caption */}
-                  <p className="mt-8 text-center font-hidden text-[11px] uppercase tracking-[0.28em] text-muted md:text-left">
-                    Fig. 01 — Salomi Rai
-                  </p>
-                </m.div>
-              </div>
-            </m.div>
+                {/* Canvas-textured mat */}
+                <div className="absolute -inset-4 overflow-hidden border border-rule bg-paper-deep">
+                  <div className="h-full w-full opacity-30" style={{
+                    backgroundImage: `
+                      repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(139,129,116,0.15) 8px, rgba(139,129,116,0.15) 9px),
+                      repeating-linear-gradient(-45deg, transparent, transparent 8px, rgba(139,129,116,0.15) 8px, rgba(139,129,116,0.15) 9px)
+                    `
+                  }} />
+                </div>
+                {/* Image */}
+                <div className="relative aspect-[3/4] w-full overflow-hidden border border-rule bg-paper-deep">
+                  <img
+                    src="/About.jpeg"
+                    alt="Salomi Rai"
+                    className="h-full w-full object-cover"
+                  />
+                  <CanvasOverlay />
+                </div>
+                {/* Editorial caption */}
+                <p className="mt-8 text-center font-mono text-[11px] uppercase tracking-[0.28em] text-muted md:text-left">
+                  Fig. 01 — Salomi Rai
+                </p>
+              </m.div>
+            </div>
           </m.div>
 
           {/* Right: Bio */}
@@ -355,18 +315,18 @@ export default function About() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="md:col-span-7 flex flex-col justify-center"
           >
-            <p className="font-hidden text-sm uppercase tracking-[0.3em] text-terracotta-500 mb-5">
+            <p className="mb-5 font-mono text-xs uppercase tracking-[0.3em] text-terracotta-deep">
               About
             </p>
 
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-ink-800 leading-[1.06]">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold tracking-tight text-ink leading-[1.06]">
               <RevealLine delay={0.1}>Where logic</RevealLine>
               <RevealLine delay={0.28}>
                 meets{' '}
-                <em className="font-canora text-[1.1em] font-normal italic text-terracotta-500">
+                <em className="font-display text-[1.1em] font-normal italic text-terracotta-deep">
                   design
                 </em>
-                <span className="text-terracotta-500">.</span>
+                <span className="text-terracotta-deep">.</span>
               </RevealLine>
             </h2>
 
@@ -377,10 +337,10 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.5, ease: EASE }}
               className="mt-5 flex flex-wrap items-baseline gap-x-5 gap-y-1"
             >
-              <span className="font-script text-3xl leading-none text-terracotta-600 md:text-4xl">
+              <span className="font-script text-3xl leading-none text-terracotta-deep md:text-4xl">
                 Salomi Rai
               </span>
-              <span className="font-hidden text-[11px] uppercase tracking-[0.28em] text-muted">
+              <span className="font-mono text-[11px] uppercase tracking-[0.28em] text-muted">
                 UI/UX Developer · Frontend
               </span>
             </m.div>
@@ -390,13 +350,13 @@ export default function About() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true }}
-              className="mt-8 space-y-4 text-base text-muted leading-relaxed max-w-xl"
+              className="mt-8 max-w-xl space-y-4 text-base leading-relaxed text-ink-soft"
             >
               <m.p variants={bioItem}>
                 I'm a Web Developer with a strong interest in building modern,
                 responsive, and interactive web applications. I enjoy the space
                 where{' '}
-                <span className="font-canora text-[1.08em] italic text-terracotta-600">
+                <span className="font-display text-[1.08em] italic text-terracotta-deep">
                   logic meets design
                 </span>{' '}
                 — turning complex problems into simple, beautiful digital experiences.
@@ -435,8 +395,8 @@ export default function About() {
                       transition: { duration: 0.5, ease: EASE },
                     },
                   }}
-                  whileHover={{ y: -3, scale: 1.06 }}
-                  className="cursor-default rounded-full border border-cream-300 bg-cream-100 px-3.5 py-1.5 text-[13px] font-medium text-ink-700 transition-colors hover:border-terracotta-500/50 hover:bg-cream-200 hover:text-terracotta-600"
+                  whileHover={{ y: -3 }}
+                  className="cursor-default border border-rule bg-paper px-3.5 py-1.5 font-mono text-[12px] uppercase tracking-[0.12em] text-ink-soft transition-colors hover:border-terracotta hover:text-terracotta-deep"
                 >
                   {skill}
                 </m.span>
@@ -451,7 +411,7 @@ export default function About() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="mt-10"
             >
-              <p className="font-hidden text-sm uppercase tracking-[0.3em] text-terracotta-500 mb-3">
+              <p className="mb-3 font-mono text-xs uppercase tracking-[0.3em] text-terracotta-deep">
                 Certificates
               </p>
               <m.a
@@ -459,22 +419,22 @@ export default function About() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -3 }}
-                className="group relative block rounded-sm border border-cream-300 bg-cream-100/80 px-4 py-3 pr-12 transition-[background-color,border-color,box-shadow] hover:bg-cream-200 hover:border-terracotta-500/40 hover:shadow-md"
+                className="group relative block border border-rule bg-paper px-4 py-3 pr-12 transition-colors hover:border-terracotta hover:bg-paper-deep"
               >
                 <div className="flex items-start gap-3">
-                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-sm bg-terracotta-500/10 text-terracotta-600 transition-colors group-hover:bg-terracotta-500 group-hover:text-white">
+                  <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center border border-rule bg-paper-deep text-terracotta-deep transition-colors group-hover:border-terracotta group-hover:bg-terracotta-deep group-hover:text-paper">
                     <Award size={16} />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm font-medium text-ink-800 transition-colors group-hover:text-terracotta-600">
+                    <p className="text-sm font-medium text-ink transition-colors group-hover:text-terracotta-deep">
                       Java Object-Oriented Programming (OOP)
                     </p>
-                    <p className="mt-0.5 text-xs text-muted/70">
+                    <p className="mt-0.5 text-xs text-muted">
                       LinkedIn Learning
                     </p>
                   </div>
                 </div>
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted/40 transition-colors group-hover:text-terracotta-500">
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted transition-colors group-hover:text-terracotta-deep">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
                 </span>
               </m.a>
@@ -494,7 +454,7 @@ export default function About() {
                 rel="noopener noreferrer"
                 aria-label="GitHub"
                 whileHover={{ y: -3, scale: 1.15 }}
-                className="transition-colors hover:text-ink-800"
+                className="transition-colors hover:text-ink"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
               </m.a>
@@ -504,7 +464,7 @@ export default function About() {
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
                 whileHover={{ y: -3, scale: 1.15 }}
-                className="transition-colors hover:text-ink-800"
+                className="transition-colors hover:text-ink"
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
               </m.a>
@@ -512,7 +472,7 @@ export default function About() {
                 href="mailto:raisalomi595@gmail.com"
                 aria-label="Email"
                 whileHover={{ y: -3, scale: 1.15 }}
-                className="transition-colors hover:text-ink-800"
+                className="transition-colors hover:text-ink"
               >
                 <Mail size={18} />
               </m.a>
@@ -526,9 +486,9 @@ export default function About() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="mt-16 pt-10 border-t border-cream-300"
+          className="mt-16 border-t border-rule pt-10"
         >
-          <p className="font-hidden text-xs uppercase tracking-[0.3em] text-terracotta-500 mb-6">
+          <p className="mb-6 font-mono text-xs uppercase tracking-[0.3em] text-terracotta-deep">
             What I do
           </p>
           <div className="grid gap-5 sm:grid-cols-3">
@@ -540,20 +500,20 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.55, delay: 0.1 + i * 0.1, ease: EASE }}
                 whileHover={{ y: -6 }}
-                className="group rounded-sm border border-cream-300 bg-cream-100 px-5 py-5 transition-colors hover:border-terracotta-500/40 hover:bg-cream-200 hover:shadow-[0_16px_32px_-18px_rgba(45,42,36,0.4)]"
+                className="group border border-rule bg-paper px-5 py-5 transition-colors hover:border-terracotta"
               >
                 <div className="flex items-center justify-between">
-                  <span className="grid h-10 w-10 place-items-center rounded-sm bg-terracotta-500/10 text-terracotta-600 transition-colors group-hover:bg-terracotta-500 group-hover:text-white">
+                  <span className="grid h-10 w-10 place-items-center border border-rule bg-paper-deep text-terracotta-deep transition-colors group-hover:border-terracotta group-hover:bg-terracotta-deep group-hover:text-paper">
                     <service.Icon size={17} />
                   </span>
-                  <span className="font-hidden text-[11px] tracking-[0.2em] text-muted/70">
+                  <span className="font-mono text-[11px] tracking-[0.2em] text-muted">
                     {service.num}
                   </span>
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-ink-800">
+                <h3 className="mt-4 text-lg font-semibold text-ink">
                   {service.title}
                 </h3>
-                <p className="mt-1.5 text-sm text-muted leading-relaxed">
+                <p className="mt-1.5 text-sm leading-relaxed text-muted">
                   {service.desc}
                 </p>
               </m.div>

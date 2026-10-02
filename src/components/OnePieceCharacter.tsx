@@ -147,7 +147,7 @@ export default function OnePieceCharacter() {
   return (
     <div
       aria-hidden="true"
-      className="relative h-72 select-none overflow-hidden rounded-3xl border border-cream-300 bg-gradient-to-b from-[#8ecbe8] via-[#4f9cc9] to-[#1e5f8f] md:h-80"
+      className="relative h-72 select-none overflow-hidden rounded-3xl border border-rule bg-gradient-to-b from-[#8ecbe8] via-[#4f9cc9] to-[#1e5f8f] md:h-80"
     >
       <SceneBoundary>
         <Canvas

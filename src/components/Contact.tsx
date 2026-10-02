@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { m } from 'framer-motion'
 import { Send, Check, Mail, Phone, MapPin, ArrowUpRight } from 'lucide-react'
 
@@ -20,25 +20,82 @@ const socialLinks = [
   { icon: SocialGithub, label: 'GitHub', href: 'https://github.com/raisalomi595' },
 ]
 
-const decorations = [
-  { char: '✦', top: '10%', right: '5%', size: 18, color: '#E63946', delay: 0 },
-  { char: '●', top: '50%', right: '12%', size: 10, color: '#D97B7B', delay: 0.15 },
-  { char: '■', top: undefined, bottom: '20%', right: '8%', size: 12, color: '#C73E3E', delay: 0.1 },
-] as { char: string; top?: string; bottom?: string; right: string; size: number; color: string; delay: number }[]
+/* Printer's ornaments — static (two-ink palette, no infinite loops) */
+const ornaments: {
+  char: string
+  top?: string
+  bottom?: string
+  right: string
+  size: number
+  className: string
+}[] = [
+  { char: '✦', top: '10%', right: '5%', size: 18, className: 'text-terracotta-deep' },
+  { char: '●', top: '50%', right: '12%', size: 10, className: 'text-ink/25' },
+  { char: '■', bottom: '20%', right: '8%', size: 12, className: 'text-ink/25' },
+]
+
+type FieldName = 'name' | 'email' | 'message'
+type FieldErrors = Partial<Record<FieldName, string>>
+
+const labelCls = 'mb-1.5 block font-mono text-[11px] uppercase tracking-[0.2em] text-ink-soft'
+const inputCls =
+  'w-full border-b border-ink/30 bg-transparent px-0 py-3 text-base text-ink placeholder:text-muted transition-colors focus:border-terracotta focus:outline-none'
 
 export default function Contact() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [message, setMessage] = useState('')
+  const [errors, setErrors] = useState<FieldErrors>({})
+  const [submitError, setSubmitError] = useState('')
+  const [showSummary, setShowSummary] = useState(false)
   const [succeeded, setSucceeded] = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  const [error, setError] = useState('')
+  const summaryRef = useRef<HTMLDivElement>(null)
+
+  const validateField = (field: FieldName, value: string): string | undefined => {
+    if (field === 'name') return value.trim() ? undefined : 'Enter your name'
+    if (field === 'email') {
+      if (!value.trim()) return 'Enter your email address'
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+        ? undefined
+        : 'Enter a valid email address'
+    }
+    return value.trim() ? undefined : 'Enter a message'
+  }
+
+  const values: Record<FieldName, string> = { name, email, message }
+
+  const handleBlur = (field: FieldName) => {
+    const msg = validateField(field, values[field])
+    setErrors((prev) => ({ ...prev, [field]: msg }))
+  }
+
+  const hasErrors = Object.values(errors).some(Boolean)
+
+  // Focus moves to the error summary only after a failed submit — never on blur
+  useEffect(() => {
+    if ((showSummary || submitError) && summaryRef.current) {
+      summaryRef.current.focus()
+    }
+  }, [showSummary, submitError])
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    setError('')
-    setSubmitting(true)
+    setSubmitError('')
 
+    const nextErrors: FieldErrors = {
+      name: validateField('name', name),
+      email: validateField('email', email),
+      message: validateField('message', message),
+    }
+    setErrors(nextErrors)
+    if (Object.values(nextErrors).some(Boolean)) {
+      setShowSummary(true)
+      return
+    }
+    setShowSummary(false)
+
+    setSubmitting(true)
     try {
       const res = await fetch('https://formsubmit.co/ajax/raisalomi595@gmail.com', {
         method: 'POST',
@@ -52,35 +109,40 @@ export default function Contact() {
       setName('')
       setEmail('')
       setMessage('')
+      setErrors({})
     } catch {
-      setError('Failed to send. Please email me directly at raisalomi595@gmail.com')
+      setSubmitError('Failed to send. Please email me directly at raisalomi595@gmail.com')
     } finally {
       setSubmitting(false)
     }
   }
 
+  const errorText = (field: FieldName) =>
+    errors[field] ? (
+      <p id={`${field}-error`} className="mt-1.5 font-mono text-[11px] uppercase tracking-[0.14em] text-terracotta-deep">
+        {errors[field]}
+      </p>
+    ) : null
+
   return (
-    <section id="contact" className="relative bg-cream-200 py-24 md:py-32 overflow-hidden scroll-mt-20">
-      <div className="absolute inset-0 z-0 pointer-events-none hidden md:block">
-        {decorations.map((d, i) => (
+    <section id="contact" className="relative scroll-mt-20 overflow-hidden bg-paper py-24 md:py-32">
+      <div className="pointer-events-none absolute inset-0 z-0 hidden md:block" aria-hidden="true">
+        {ornaments.map((o, i) => (
           <m.span
             key={i}
-            className="absolute"
-            style={{ top: d.top, right: d.right, bottom: d.bottom, fontSize: d.size, color: d.color }}
+            className={`absolute ${o.className}`}
+            style={{ top: o.top, right: o.right, bottom: o.bottom, fontSize: o.size }}
             initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: [0, 1, 0.3], scale: [0, 1, 1], y: [0, 0, 0, -6, 0] }}
+            whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{
-              opacity: { times: [0, 0.3, 1], duration: 1.5, delay: d.delay },
-              scale: { times: [0, 0.3, 1], duration: 1.5, delay: d.delay },
-              y: { duration: 4 + i, repeat: Infinity, ease: 'easeInOut', delay: d.delay + 0.8, repeatDelay: 0.5 },
-            }}
+            transition={{ duration: 0.6, delay: 0.2 + i * 0.15 }}
           >
-            {d.char}
+            {o.char}
           </m.span>
         ))}
       </div>
-      <div className="mx-auto max-w-8xl px-6 md:px-10 relative z-10">
+
+      <div className="relative z-10 mx-auto max-w-8xl px-6 md:px-10">
         <div className="grid gap-16 lg:grid-cols-5">
           {/* LEFT: Info */}
           <m.div
@@ -95,7 +157,7 @@ export default function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4 }}
-              className="text-sm font-medium uppercase tracking-widest text-terracotta-500 mb-2 font-heading"
+              className="mb-2 font-mono text-xs uppercase tracking-[0.3em] text-terracotta-deep"
             >
               Let's Connect
             </m.p>
@@ -105,7 +167,7 @@ export default function Contact() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-3xl sm:text-4xl font-bold tracking-tight text-ink-800 leading-[1.15]"
+              className="text-3xl font-semibold leading-[1.15] tracking-tight text-ink sm:text-4xl"
             >
               I'm currently seeking job opportunities and looking to grow my experience in web development.
             </m.h2>
@@ -115,7 +177,7 @@ export default function Contact() {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-5 text-base text-muted leading-relaxed"
+              className="mt-5 text-base leading-relaxed text-muted"
             >
               Whether you have a project, collaboration opportunity, or simply want to connect, I'd be happy to hear from you.
             </m.p>
@@ -124,23 +186,20 @@ export default function Contact() {
             <div className="mt-8 space-y-3">
               {contactInfo.map((item, i) => {
                 const Icon = item.icon
-                const content = (
+                return (
                   <m.div
+                    key={item.label}
                     initial={{ opacity: 0, x: -20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: i * 0.08 }}
                     className="flex items-center gap-3 text-sm"
                   >
-                    <m.span
-                      className="flex h-8 w-8 items-center justify-center rounded-full bg-cream-200 text-terracotta-500"
-                      animate={{ y: [0, -3, 0] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: i * 0.3 }}
-                    >
+                    <span className="flex h-8 w-8 items-center justify-center border border-rule bg-paper-deep text-terracotta-deep">
                       <Icon size={15} />
-                    </m.span>
+                    </span>
                     {item.href ? (
-                      <a href={item.href} className="text-muted hover:text-ink-800 transition-colors">
+                      <a href={item.href} className="text-muted transition-colors hover:text-ink">
                         {item.value}
                       </a>
                     ) : (
@@ -148,7 +207,6 @@ export default function Contact() {
                     )}
                   </m.div>
                 )
-                return <div key={item.label}>{content}</div>
               })}
             </div>
 
@@ -163,24 +221,20 @@ export default function Contact() {
               {socialLinks.map((link) => {
                 const Icon = link.icon
                 return (
-                  <m.a
+                  <a
                     key={link.label}
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    whileHover={{ x: 3, color: '#C97B5A' }}
-                    transition={{ type: 'spring', stiffness: 200 }}
-                    className="inline-flex items-center gap-1.5 text-sm text-muted transition-colors group"
+                    className="group inline-flex items-center gap-1.5 text-sm text-muted transition-colors hover:text-terracotta-deep"
                   >
                     <Icon size={16} />
                     {link.label}
-                    <m.span
-                      animate={{ x: [0, 3, 0] }}
-                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                    >
-                      <ArrowUpRight size={12} />
-                    </m.span>
-                  </m.a>
+                    <ArrowUpRight
+                      size={12}
+                      className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    />
+                  </a>
                 )
               })}
             </m.div>
@@ -198,41 +252,61 @@ export default function Contact() {
               <m.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-4 rounded-2xl bg-cream-200 border border-cream-300 p-8"
                 role="status"
+                className="flex items-center gap-4 border border-rule bg-paper-deep p-8"
               >
-                <m.div
-                  className="flex h-12 w-12 items-center justify-center rounded-full bg-terracotta-500/10"
-                  animate={{ scale: [1, 1.1, 1] }}
-                  transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                >
-                  <m.span
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <Check size={24} className="text-terracotta-500" />
-                  </m.span>
-                </m.div>
+                <span className="flex h-12 w-12 items-center justify-center border border-terracotta bg-paper">
+                  <Check size={24} className="text-terracotta-deep" />
+                </span>
                 <div>
-                  <p className="text-lg font-semibold text-ink-800">Message sent!</p>
+                  <p className="text-lg font-semibold text-ink">Message sent!</p>
                   <p className="text-sm text-muted">Thanks for reaching out — I'll get back to you soon.</p>
                 </div>
               </m.div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-5" aria-label="Contact form">
+              <form onSubmit={handleSubmit} noValidate aria-label="Contact form" className="space-y-6">
                 {/* Honeypot to prevent spam */}
-                <input type="text" name="_honey" className="hidden" />
+                <input type="text" name="_honey" className="hidden" tabIndex={-1} autoComplete="off" />
                 <input type="hidden" name="_captcha" value="true" />
 
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <m.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.1 }}
+                {/* Focusable error summary — shown after a failed submit */}
+                {((showSummary && hasErrors) || submitError) && (
+                  <div
+                    ref={summaryRef}
+                    tabIndex={-1}
+                    role="alert"
+                    aria-labelledby="form-error-title"
+                    className="border border-terracotta bg-paper-deep p-4"
                   >
-                    <label htmlFor="name" className="block text-sm font-medium text-ink-800 mb-1.5">
+                    <p
+                      id="form-error-title"
+                      className="font-mono text-[11px] uppercase tracking-[0.2em] text-terracotta-deep"
+                    >
+                      There is a problem
+                    </p>
+                    {hasErrors && (
+                      <ul className="mt-2 space-y-1">
+                        {(Object.entries(errors) as [FieldName, string | undefined][])
+                          .filter(([, msg]) => Boolean(msg))
+                          .map(([field, msg]) => (
+                            <li key={field}>
+                              <a
+                                href={`#${field}`}
+                                className="text-sm text-ink underline decoration-terracotta underline-offset-2 hover:text-terracotta-deep"
+                              >
+                                {msg}
+                              </a>
+                            </li>
+                          ))}
+                      </ul>
+                    )}
+                    {submitError && <p className="mt-2 text-sm text-ink-soft">{submitError}</p>}
+                  </div>
+                )}
+
+                <div className="grid gap-6 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="name" className={labelCls}>
                       Name
                     </label>
                     <input
@@ -241,20 +315,19 @@ export default function Contact() {
                       name="name"
                       required
                       aria-required="true"
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? 'name-error' : undefined}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all"
+                      onBlur={() => handleBlur('name')}
+                      className={inputCls}
                       placeholder="Your name"
                     />
-                  </m.div>
+                    {errorText('name')}
+                  </div>
 
-                  <m.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.15 }}
-                  >
-                    <label htmlFor="email" className="block text-sm font-medium text-ink-800 mb-1.5">
+                  <div>
+                    <label htmlFor="email" className={labelCls}>
                       Email
                     </label>
                     <input
@@ -263,21 +336,20 @@ export default function Contact() {
                       name="email"
                       required
                       aria-required="true"
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? 'email-error' : undefined}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all"
+                      onBlur={() => handleBlur('email')}
+                      className={inputCls}
                       placeholder="you@example.com"
                     />
-                  </m.div>
+                    {errorText('email')}
+                  </div>
                 </div>
 
-                <m.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
-                >
-                  <label htmlFor="message" className="block text-sm font-medium text-ink-800 mb-1.5">
+                <div>
+                  <label htmlFor="message" className={labelCls}>
                     Message
                   </label>
                   <textarea
@@ -286,50 +358,39 @@ export default function Contact() {
                     required
                     aria-required="true"
                     rows={5}
+                    aria-invalid={!!errors.message}
+                    aria-describedby={errors.message ? 'message-error' : undefined}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
-                    className="w-full rounded-xl border border-cream-300 bg-cream-50 px-4 py-3.5 text-sm text-ink-800 placeholder:text-muted/60 focus:outline-none focus:ring-2 focus:ring-terracotta-400/40 focus:border-terracotta-400 transition-all resize-y"
+                    onBlur={() => handleBlur('message')}
+                    className={`${inputCls} resize-y`}
                     placeholder="Tell me about your project or idea..."
                   />
-                </m.div>
+                  {errorText('message')}
+                </div>
 
-                {error && (
-                  <p className="text-sm text-red-500">{error}</p>
-                )}
-
-                <m.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: 0.25 }}
-                  className="flex items-center gap-3"
-                >
-                  <m.button
+                <div className="flex flex-wrap items-center gap-3">
+                  <button
                     type="submit"
                     disabled={submitting}
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.96 }}
-                    className="inline-flex items-center gap-2 rounded-full bg-terracotta-500 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-terracotta-600 hover:shadow-lg hover:shadow-terracotta-500/25 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                    className="inline-flex items-center gap-2 border border-ink bg-ink px-6 py-3 font-mono text-xs uppercase tracking-[0.2em] text-paper transition-colors hover:border-terracotta hover:bg-terracotta-deep disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
                   >
                     {submitting ? (
                       <>
-                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-paper border-t-transparent" />
                         Sending...
                       </>
                     ) : (
                       <>
                         Send Message
-                        <m.span
-                          animate={{ x: [0, 3, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
-                        >
-                          <Send size={15} />
-                        </m.span>
+                        <Send size={15} />
                       </>
                     )}
-                  </m.button>
-                  <span className="text-xs text-muted">I'll respond within 24h</span>
-                </m.div>
+                  </button>
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+                    I'll respond within 24h
+                  </span>
+                </div>
               </form>
             )}
           </m.div>

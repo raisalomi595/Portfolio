@@ -46,14 +46,14 @@ export default function Cursor() {
     <>
       <m.div aria-hidden="true" style={{ x: dotX, y: dotY }} className="pointer-events-none fixed left-0 top-0 z-[200]">
         <div
-          className={`-translate-x-1/2 -translate-y-1/2 rounded-full bg-honey-espresso transition-transform duration-200 ${
+          className={`-translate-x-1/2 -translate-y-1/2 rounded-full bg-ink transition-transform duration-200 ${
             hovering ? 'h-3 w-3 scale-100 opacity-60' : 'h-1.5 w-1.5 scale-100 opacity-90'
           }`}
         />
       </m.div>
       <m.div aria-hidden="true" style={{ x: ringX, y: ringY }} className="pointer-events-none fixed left-0 top-0 z-[200]">
         <div
-          className={`-translate-x-1/2 -translate-y-1/2 rounded-full border border-honey-espresso/50 transition-transform duration-300 ${
+          className={`-translate-x-1/2 -translate-y-1/2 rounded-full border border-ink/50 transition-transform duration-300 ${
             hovering ? 'h-12 w-12 scale-100 opacity-70' : 'h-7 w-7 scale-100 opacity-50'
           }`}
         />

@@ -1,31 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  --font-heading: 'Playfair Display', 'Cormorant Garamond', serif;
-  --font-body: 'Inter', 'Nunito Sans', sans-serif;
-  --font-cormorant: 'Cormorant Garamond', 'Special Elite', serif;
-  --font-nunito: 'Nunito Sans', 'Inconsolata', sans-serif;
-  --font-canora: 'Fraunces', 'Playfair Display', serif;
-  --font-display: 'Anton', 'Archivo Black', sans-serif;
-  --font-script: 'Great Vibes', 'Dancing Script', cursive;
-  --font-hidden: 'Special Elite', serif;
-  --font-noe: 'Playfair Display', 'Cormorant Garamond', serif;
+  /* Type — 4 families: serif display + serif body + mono furniture + script.
+     Replaces the previous 9-family request (Anton/Playfair/Cormorant/Nunito/
+     Inter/Special Elite retired — see design-system/salomi/MASTER.md). */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Newsreader', Georgia, serif;
+  --font-mono: 'Inconsolata', ui-monospace, monospace;
+  --font-script: 'Great Vibes', cursive;
+
+  /* Two-ink press: ink + terracotta on paper */
+  --color-paper: #FAF7F2;
+  --color-paper-deep: #EFE7DA;
+  --color-ink: #1E1C18;
+  --color-ink-soft: #3D3830;
+  --color-muted: #6F675C;
+  --color-rule: color-mix(in srgb, #1E1C18 15%, transparent);
+  --color-terracotta: #C97B5A;
+  /* Text-safe spot ink: 5.6:1 on paper, 4.8:1 on paper-deep (checklist: 4.5:1) */
+  --color-terracotta-deep: #98503A;
+  /* Cover stock — hero + plaid (identity color, deliberate exception) */
   --color-honey-blush: #EACBBC;
-  --color-honey-cream: #F5E3D6;
-  --color-honey-espresso: #331917;
-  --color-honey-accent: #C97B63;
-  --color-honey-ink: #1E0F0D;
-  --color-cream-50: #FAF7F2;
-  --color-cream-100: #F5F0EB;
-  --color-cream-200: #EDE6DC;
-  --color-cream-300: #E0D5C8;
-  --color-terracotta-400: #D48D6A;
-  --color-terracotta-500: #C97B5A;
-  --color-terracotta-600: #B06449;
-  --color-ink-700: #3D3830;
-  --color-ink-800: #2D2A24;
-  --color-ink-900: #1E1C18;
-  --color-muted: #8B8174;
+
   --container-8xl: 90rem;
   --animate-rotate-slow: rotate-slow 18s linear infinite;
 
@@ -38,11 +34,47 @@
 
 @layer base {
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
+    font-family: var(--font-display);
+    text-wrap: pretty;
   }
   body {
     font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    background: var(--color-paper);
+    color: var(--color-ink);
+    text-wrap: pretty;
   }
+
+  /* Visible keyboard focus (pre-delivery checklist) */
+  :focus-visible {
+    outline: 2px solid var(--color-terracotta);
+    outline-offset: 3px;
+  }
+
+  /* Tailwind v4 no longer applies cursor: pointer to interactive elements */
+  a, button, [role="button"], summary, label[for], select, input[type="checkbox"],
+  input[type="radio"], input[type="submit"], input[type="range"] {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--color-terracotta) 35%, transparent);
+  }
+}
+
+/* Editorial prose measure — case-study body copy */
+.measure {
+  max-width: 68ch;
+}
+
+/* Hairline rule + double-rule section divider (print vocabulary) */
+.rule {
+  border-color: var(--color-rule);
+}
+
+.rule-double {
+  border-top: 3px double var(--color-rule);
 }
 
 html {
@@ -72,7 +104,7 @@ html {
   left: 0;
   z-index: 100;
   padding: 0.5rem 1rem;
-  background: var(--color-terracotta-500);
+  background: var(--color-terracotta-deep);
   color: white;
   font-weight: 600;
   text-decoration: none;

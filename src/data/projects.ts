@@ -2,11 +2,11 @@ export interface Project {
   id: string
   title: string
   description: string
-  category: 'frontend' | 'fullstack' | 'design'
+  // TODO: replace Unsplash references with real product screenshots
   image: string
+  // TODO: replace gallery images with real screenshots
   gallery: string[]
   type: string
-  duration: string
   overview: string
   problem: string
   research: string
@@ -31,37 +31,36 @@ export const projects: Project[] = [
   {
     id: 'jobnepal',
     title: 'JobNepal',
-    description: 'Job Portal Frontend for Nepal',
-    category: 'frontend',
+    description:
+      'A job portal for the Nepali market — real listings, resilient logo handling, and a responsive layout.',
     image: 'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=800&h=600&fit=crop',
     gallery: [
       'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=1200&h=800&fit=crop',
       'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=1200&h=800&fit=crop',
       'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=800&fit=crop',
     ],
-    type: 'Job Portal Frontend for Nepal',
-    duration: 'May 2026 – June 2026',
+    type: 'Frontend Application',
     overview:
-      'A modern job portal frontend built for the Nepali market, featuring real job listings from top Nepali companies with authentic company logos. Provides a seamless experience for job seekers to browse, search, and apply for positions across multiple categories.',
+      'A job portal frontend built for the Nepali market, showing real listings from Nepali companies with their actual logos. Job seekers can browse, search, and open positions across categories without fighting the interface.',
     problem:
-      'Existing job platforms in Nepal had poor user experiences — cluttered interfaces, slow load times, and no mobile responsiveness. Job seekers struggled to find relevant positions, and companies lacked a modern platform to showcase their openings with proper branding.',
+      'Job platforms tend to bury relevant listings behind cluttered feeds and slow, awkward mobile layouts. On small screens — where most people actually search — filters break, logos vanish, and company branding becomes untrustworthy.',
     research:
-      'Analyzed the top 5 job platforms in Nepal and surveyed 40+ job seekers. Key findings: 82% used mobile phones for job hunting, 67% abandoned searches due to poor UX, and company logos/branding were a major trust signal that most platforms failed to display properly.',
+      'I walked the flows of the major job boards by hand — home, listing, filters, job detail, application — and took notes on where they lose people. The recurring gaps: unfiltered result pages, inconsistent logo treatment, and no clear signal of which listings are trustworthy. Applying for jobs myself gave me a running list of frustrations to design against.',
     wireframes:
-      'Created wireframes for all key flows: home page with instant jobs sidebar, job listing with filters, job detail with breadcrumbs, and the employer/authentication pages. Prioritized content hierarchy and fast access to key actions.',
+      'Mapped the key flows first: home with an instant-jobs sidebar, listing page with filters, job detail with breadcrumbs, and employer/auth pages. Content hierarchy came before styling — the fastest path to a job card always won.',
     uiDesign:
-      'Designed a clean, modern interface with a warm professional palette. Focused on readability and scannability of job listings. Used Tailwind CSS 4 utility classes for consistent spacing, typography, and responsive behavior across all breakpoints.',
+      'A clean, readable interface with a warm professional palette, tuned for scanning long lists of listings. Tailwind CSS 4 utility classes kept spacing, typography, and breakpoints consistent across every screen.',
     development:
-      'Built with React 19 and Vite 8 for fast development and optimized production builds. Used React Router v7 for client-side routing with nested layouts. Tailwind CSS 4 enabled rapid UI development with a consistent design system.',
+      'Built with React 19 and Vite 8 for fast iteration and small production bundles. React Router v7 handles client-side routing with nested layouts; Tailwind CSS 4 provides a token-driven design system.',
     technologies: ['React 19', 'Vite 8', 'Tailwind CSS 4', 'React Router v7', 'ESLint'],
     challenges:
-      'Sourcing and displaying authentic company logos required handling multiple fallback strategies. Some logos came from CDN, others from company websites, and missing ones needed generated avatars. The sidebar layout (Instant Jobs + Hot Jobs) also required careful responsive design.',
+      'Company logos arrive from everywhere — CDNs, company sites, or nowhere at all. The sidebar (Instant Jobs + Hot Jobs) also had to stay useful at every width without collapsing into clutter.',
     solutions:
-      'Implemented a multi-layered logo resolution system: primary source → CDN → website scrape → ui-avatars fallback. Used CSS grid with named areas for the sidebar layout, with a stacked layout on mobile and a two-column layout on desktop.',
+      'Built a layered logo-resolution chain: primary source → CDN → site fallback → generated avatar, so a missing logo never breaks a card. The sidebar uses CSS grid with named areas — stacked on mobile, two columns on desktop.',
     results:
-      'Successfully deployed on Vercel with 100+ real job listings from companies like Ncell, Nabil Bank, Nepal Telecom, Yeti Airlines, and Pathao. Achieved Lighthouse scores of 95+ on performance and accessibility.',
+      'Shipped to Vercel with real listings from companies like Ncell, Nabil Bank, Nepal Telecom, Yeti Airlines, and Pathao. The logo chain degrades gracefully instead of showing broken images, and the layout holds from 375px up to desktop.',
     lessons:
-      'Building a production-quality frontend with real data taught me the importance of graceful fallbacks and defensive rendering. Vite 8\'s fast HMR and build pipeline made iteration significantly faster than older tooling.',
+      'Production-quality frontends are mostly defensive rendering — fallbacks, empty states, and graceful degradation. Vite 8 made iterating on all of it significantly faster than older tooling.',
     features: [
       'Real job listings from Nepali companies',
       'Company logos with fallback chain',
@@ -73,7 +72,7 @@ export const projects: Project[] = [
       'Instant Jobs & Hot Jobs sections',
     ],
     architecture:
-      'Single-page application built with React 19 and Vite 8. Uses React Router v7 for declarative routing with nested layouts. Component architecture follows a feature-based directory structure. Styling uses Tailwind CSS 4 with custom theme tokens. Data is managed through React state and props with a service layer for API integration.',
+      'Single-page application built with React 19 and Vite 8. React Router v7 provides declarative routing with nested layouts. Components are organized feature-by-feature, styling runs through Tailwind CSS 4 theme tokens, and data flows through a service layer for API integration.',
     role: 'Frontend Developer & UI Designer',
     timeline: '1 month (May 2026 – June 2026)',
     liveUrl: 'https://job-nepal.vercel.app',
@@ -83,37 +82,36 @@ export const projects: Project[] = [
   {
     id: 'secondhome',
     title: 'SecondHome',
-    description: 'Smart Digital Hostel Management System',
-    category: 'fullstack',
+    description:
+      'Hostel management — room allocation, payments, and maintenance requests in one dashboard.',
     image: 'https://images.unsplash.com/photo-1709805619372-40de3f158e83?q=80&w=1195&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     gallery: [
       'https://images.unsplash.com/photo-1555854877-bab7e8e3b92e?w=1200&h=800&fit=crop',
       'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&h=800&fit=crop',
       'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1200&h=800&fit=crop',
     ],
-    type: 'Smart Digital Hostel Management System',
-    duration: 'April 2025 – March 2026',
+    type: 'Full-stack System',
     overview:
-      'A modern hostel management platform that streamlines room allocation, payment tracking, resident communication, and maintenance requests. Designed to replace paper-based systems with an intuitive digital dashboard.',
+      'A hostel management platform covering room allocation, payment tracking, resident communication, and maintenance requests — built to replace paper registers and spreadsheets with one dashboard.',
     problem:
-      'Hostel administrators were managing room assignments, payments, and maintenance requests through spreadsheets and physical logbooks. This led to double-bookings, delayed maintenance responses, and no real-time visibility into occupancy or financials.',
+      'Hostel administration usually runs on registers, spreadsheets, and memory. Room assignments get double-booked, payment history lives in three different notebooks, and maintenance requests disappear into group chats with no record of who promised what.',
     research:
-      'Interviewed 12 hostel administrators and 30 residents across 5 hostels. Key findings: 78% of admin time was spent on manual data entry; residents wanted a mobile-friendly way to submit requests; payment tracking was the #1 pain point.',
+      'I traced how hostels around me actually operate: a register for room assignment, a ledger for payments, and WhatsApp for maintenance. The weak points were consistent — no single view of occupancy, no history you could search, and requests that fell between pages. Those observations became the three core flows.',
     wireframes:
-      'Created low-fidelity wireframes focusing on the three core flows: room allocation wizard, payment tracking dashboard, and maintenance request system. Tested with 5 admins and iterated based on feedback.',
+      'Started with low-fidelity wireframes for the three flows that mattered: a room-allocation wizard, a payment-tracking dashboard, and a maintenance request system. Each screen shows only what the current step needs.',
     uiDesign:
-      'Designed a clean, accessible interface using React and Tailwind CSS. Focused on reducing cognitive load with progressive disclosure — showing only relevant information at each step of the workflow.',
+      'A clean, accessible interface in React and Tailwind CSS, built around progressive disclosure — admins see availability, holds, and conflicts at the moment they matter rather than all at once.',
     development:
-      'Built with React.js for the frontend, with a component-driven architecture. Implemented responsive design from the start to ensure the dashboard works on both desktop and mobile devices used by staff.',
+      'Built with React and a component-driven architecture. Responsive from the start, since staff use both desktops and phones to check occupancy.',
     technologies: ['React.js', 'Tailwind CSS', 'JavaScript', 'REST API', 'LocalStorage'],
     challenges:
-      'The biggest challenge was designing an intuitive room allocation flow that could handle complex rules: gender-specific floors, maintenance holds, early check-outs, and group bookings.',
+      'Room allocation carries real-world rules: gender-specific floors, maintenance holds, early check-outs, and group bookings — all of which can contradict each other.',
     solutions:
-      'Created a wizard-based allocation system with real-time availability checking. Used a step-by-step flow that guides admins through the process while enforcing business rules automatically.',
+      'A wizard-based allocation flow with real-time availability checks. The step-by-step path enforces the business rules automatically, so an admin cannot create a conflict even by accident.',
     results:
-      'Reduced room allocation time by 60%. Payment tracking accuracy improved to 100%. Maintenance request response time decreased from 48 hours to 4 hours on average.',
+      'Allocation that took cross-referencing several pages now happens in a few guided clicks, with conflicts blocked up front. Payments and maintenance history live in one searchable place instead of scattered notebooks.',
     lessons:
-      'User research was invaluable — assumptions about how admins worked were often wrong. Testing with real users early saved us from building the wrong features.',
+      'Assumptions about how admins worked were regularly wrong — tracing the paper flow first was worth more than any feature I sketched. The wizard structure came directly from watching the real process.',
     features: [
       'Room allocation system',
       'Payment management',
@@ -123,7 +121,7 @@ export const projects: Project[] = [
       'Mobile responsive interface',
     ],
     architecture:
-      'Single-page application built with React. Component hierarchy follows atomic design principles. State management handled via React Context for global state (auth, notifications) and local state for feature-specific data. CSS architecture uses Tailwind utility classes with custom component abstractions.',
+      'Single-page React application with a component hierarchy following atomic design. Global state (auth, notifications) runs through React Context; feature data stays local. Styling uses Tailwind utility classes with small component abstractions.',
     role: 'Full-stack Developer & UI Designer',
     timeline: '12 months (Apr 2025 – Mar 2026)',
     nextProjectId: 'peerlearn',
@@ -131,37 +129,36 @@ export const projects: Project[] = [
   {
     id: 'peerlearn',
     title: 'PeerLearn',
-    description: 'Academic Discussion Platform',
-    category: 'fullstack',
+    description:
+      'Academic discussion platform — role-based forums, material sharing, and moderation.',
     image: 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop',
     gallery: [
       'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&h=800&fit=crop',
       'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1200&h=800&fit=crop',
       'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=1200&h=800&fit=crop',
     ],
-    type: 'Academic Discussion Platform',
-    duration: 'January 2026 – May 2026',
+    type: 'Full-stack Platform',
     overview:
-      'A full-stack collaborative learning platform where students can ask questions, share learning materials, participate in discussions, and learn together in a structured academic environment.',
+      'A collaborative learning platform where students ask questions, share materials, and take part in discussions organized by subject — with moderators keeping order.',
     problem:
-      'Students lacked a centralized platform for academic discussions outside of class. Messaging apps were chaotic, email threads were unmanageable, and there was no way to organize knowledge by subject or topic.',
+      'Academic discussion outside class happens in messaging groups where questions sink within a day and materials scatter across chats. Nothing is organized by subject, nothing is searchable, and nobody is accountable for keeping it usable.',
     research:
-      'Surveyed 85 students across 3 departments. Found that 92% used WhatsApp groups for academic discussion but 73% found them ineffective for organized learning. Key desired features: topic categorization, search, and moderation.',
+      'I compared how classmates actually discuss coursework — group chats, shared drives, email threads — against what a structured forum needs. The same requests kept surfacing: topics, search, and someone moderating. Those three became the product core.',
     wireframes:
-      'Mapped out the complete user journey from registration to participation. Created wireframes for the discussion forum, material sharing, user dashboard, and admin moderation panel. Focused on reducing friction to post and find content.',
+      'Mapped the full journey from registration to first post, then wireframed the discussion forum, material sharing, user dashboard, and admin moderation panel. Friction to post and friction to find were the two metrics that mattered.',
     uiDesign:
-      'Designed a clean, education-focused interface. Used a warm color palette to create an inviting learning environment. Prioritized content hierarchy so discussions and materials are easy to scan and discover.',
+      'An education-focused interface with a warm palette so the platform feels inviting rather than institutional. Content hierarchy keeps long discussions scannable.',
     development:
-      'Built using Java with MVC architecture and DAO pattern for data access. MySQL database with normalized schema. Frontend uses HTML, CSS, and JavaScript with responsive design principles throughout.',
+      'Built in Java with MVC architecture and the DAO pattern for data access, against a normalized MySQL schema. The frontend uses HTML, CSS, and JavaScript with responsive layouts throughout.',
     technologies: ['Java', 'MySQL', 'HTML', 'CSS', 'JavaScript', 'MVC', 'DAO Pattern'],
     challenges:
-      'Implementing role-based access control with three user types (student, moderator, admin) while keeping the codebase clean and the UX simple was complex. Each role has different permissions and dashboard views.',
+      'Three user types — student, moderator, admin — each need different permissions and dashboards, while the codebase stays clean and the UX stays simple.',
     solutions:
-      'Designed a flexible RBAC system using Java enums and DAO pattern. Created separate dashboard views per role while sharing a common base layout. Used prepared statements throughout to prevent SQL injection.',
+      'A role-based access system built on Java enums and the DAO pattern, with per-role dashboard views sharing a common base layout. Prepared statements are used throughout to prevent SQL injection.',
     results:
-      'Successfully deployed with support for 500+ concurrent users. 89% of surveyed students found the platform improved their academic collaboration. Admin moderation reduced spam by 95%.',
+      'A working full-stack platform with authentication, RBAC, forums, material sharing, and both user and admin dashboards — built through to a normalized (3NF) schema rather than stopped at the frontend.',
     lessons:
-      'Database normalization early on saved significant refactoring later. The MVC pattern made the codebase maintainable and testable. Security considerations (prepared statements, input validation) must be built in from day one.',
+      'Normalizing the database early saved a large refactor later, and MVC kept the growing codebase maintainable. Security — prepared statements, input validation — has to be built in from day one, not added at the end.',
     features: [
       'User authentication',
       'Role-based access control',
@@ -173,10 +170,9 @@ export const projects: Project[] = [
       'Admin dashboard',
     ],
     architecture:
-      'MVC architecture with Java servlets as controllers, JSP for views, and DAO pattern for data access. MySQL database with fully normalized schema (3NF). Frontend uses vanilla JavaScript with Fetch API for async operations.',
+      'MVC architecture with Java servlets as controllers, JSP views, and DAO-pattern data access over a normalized (3NF) MySQL schema. The frontend uses vanilla JavaScript with the Fetch API for async operations.',
     role: 'Full-stack Developer & Database Designer',
     timeline: '5 months (Jan 2026 – May 2026)',
     nextProjectId: 'jobnepal',
   },
 ]
-
